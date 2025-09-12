@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Events - Premium Event Decoration</title>
+    <meta name="description" content="Professional event decoration services for weddings, birthdays, corporate events, and more. Creating magical moments with stunning decorations.">
+    <meta name="keywords" content="event decoration, wedding decoration, birthday party, corporate events, event planning">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Stylesheets - Load in order of importance -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/hero.css">
+    <link rel="stylesheet" href="css/components/portfolio.css">
+    <link rel="stylesheet" href="css/components/services.css">
+    <link rel="stylesheet" href="css/components/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="nav-container">
+            <a href="#home" class="logo" aria-label="Elegant Events Home">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">Elegant Events</span>
+            </a>
+            
+            <div class="nav-content">
+                <nav role="navigation" aria-label="Main navigation">
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="quick-contact">
+                    <button class="header-contact-btn" aria-label="Contact options">
+                        Contact Now
+                    </button>
+                    <div class="contact-dropdown" role="menu">
+                        <a href="https://wa.me/1234567890?text=Hi! I'm interested in your event decoration services." 
+                           class="dropdown-item" target="_blank" rel="noopener" role="menuitem">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                            WhatsApp
+                        </a>
+                        <a href="tel:+1234567890" class="dropdown-item" role="menuitem">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            Call Now
+                        </a>
+                        <a href="mailto:hello@elegantevents.com?subject=Event Decoration Inquiry" 
+                           class="dropdown-item" role="menuitem">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            Email
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero" role="banner">
+            <div class="floating-elements" id="floating-elements" aria-hidden="true">
+                <!-- Animated elements added by JavaScript -->
+            </div>
+            
+            <div class="hero-content">
+                <h1 class="hero-title">Transform Your Events</h1>
+                <p class="hero-subtitle">Creating magical moments with stunning decorations that bring your vision to life</p>
+                <a href="#portfolio" class="cta-button">
+                    <span class="cta-text">View Our Work</span>
+                    <i class="fas fa-arrow-right cta-icon" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3 class="about-subtitle">Passionate Event Decorator</h3>
+                        <p>With over 5 years of experience in event decoration, I specialize in creating breathtaking atmospheres that perfectly capture the essence of your special moments. From intimate gatherings to grand celebrations, every detail is crafted with precision and creativity.</p>
+                        <p>My approach combines artistic vision with practical execution, ensuring that your event not only looks stunning but also flows seamlessly. I believe that great decoration should enhance the experience, creating memories that last a lifetime.</p>
+                        <div class="specialties">
+                            <h4>Specialties:</h4>
+                            <ul class="specialties-list">
+                                <li>Wedding Decorations</li>
+                                <li>Corporate Events</li>
+                                <li>Birthday Parties</li>
+                                <li>Baby Showers</li>
+                                <li>Anniversary Celebrations</li>
+                                <li>Custom Themed Events</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500&h=500&fit=crop&auto=format" 
+                             alt="Professional event decorator arranging flowers" 
+                             loading="lazy">
+                        <div class="image-overlay">
+                            <span class="overlay-text">5+ Years Experience</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="section portfolio">
+            <div class="container">
+                <h2 class="section-title">Our Portfolio</h2>
+                <p class="section-subtitle">Discover our stunning event decorations across different categories</p>
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <!-- Portfolio items will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section services">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Comprehensive event decoration services tailored to your needs</p>
+                <div class="services-grid">
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-heart" aria-hidden="true"></i>
+                        </div>
+                        <h3>Wedding Decoration</h3>
+                        <p>Complete wedding decoration services including ceremony, reception, and photo booth setups with floral arrangements and lighting.</p>
+                        <ul class="service-features">
+                            <li>Bridal table decoration</li>
+                            <li>Ceremony arch & aisle</li>
+                            <li>Reception centerpieces</li>
+                            <li>Lighting design</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-birthday-cake" aria-hidden="true"></i>
+                        </div>
+                        <h3>Birthday Parties</h3>
+                        <p>Themed birthday celebrations for all ages with custom backdrops, balloon arrangements, and table decorations.</p>
+                        <ul class="service-features">
+                            <li>Custom theme design</li>
+                            <li>Balloon arrangements</li>
+                            <li>Photo booth setup</li>
+                            <li>Table decorations</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-briefcase" aria-hidden="true"></i>
+                        </div>
+                        <h3>Corporate Events</h3>
+                        <p>Professional corporate event decoration including conferences, product launches, and company celebrations.</p>
+                        <ul class="service-features">
+                            <li>Brand integration</li>
+                            <li>Stage decoration</li>
+                            <li>Welcome displays</li>
+                            <li>Networking areas</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-baby" aria-hidden="true"></i>
+                        </div>
+                        <h3>Baby Showers</h3>
+                        <p>Adorable baby shower decorations with soft color palettes, themed centerpieces, and welcome displays.</p>
+                        <ul class="service-features">
+                            <li>Gender reveal setups</li>
+                            <li>Soft color themes</li>
+                            <li>Welcome signage</li>
+                            <li>Gift table decoration</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <h3>Custom Themes</h3>
+                        <p>Bring any theme to life with custom decorations, props, and styling tailored to your unique vision.</p>
+                        <ul class="service-features">
+                            <li>Concept development</li>
+                            <li>Custom props</li>
+                            <li>Color coordination</li>
+                            <li>Unique styling</li>
+                        </ul>
+                    </article>
+                    
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-calendar" aria-hidden="true"></i>
+                        </div>
+                        <h3>Event Planning</h3>
+                        <p>Full event planning and coordination services to ensure your celebration is perfect from start to finish.</p>
+                        <ul class="service-features">
+                            <li>Timeline coordination</li>
+                            <li>Vendor management</li>
+                            <li>Setup & breakdown</li>
+                            <li>Day-of coordination</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Ready to make your event unforgettable? Contact us today for a free consultation!</p>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <div>
+                                <h3>Phone</h3>
+                                <p>+1 (234) 567-8900</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <div>
+                                <h3>Email</h3>
+                                <p>hello@elegantevents.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <div>
+                                <h3>Hours</h3>
+                                <p>Mon-Sat: 9AM-7PM<br>Sun: By appointment</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-buttons">
+                        <a href="https://wa.me/1234567890?text=Hi! I'm interested in your event decoration services." 
+                           class="contact-btn whatsapp" target="_blank" rel="noopener">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                        <a href="tel:+1234567890" class="contact-btn phone">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <span>Call Now</span>
+                        </a>
+                        <a href="mailto:hello@elegantevents.com?subject=Event Decoration Inquiry" 
+                           class="contact-btn email">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <span>Email</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Social Media Section -->
+    <section class="social-section">
+        <div class="container">
+            <h2 class="social-title">Connect With Us</h2>
+            <p class="social-subtitle">Follow us for daily inspiration and behind-the-scenes content</p>
+            <div class="social-links">
+                <a href="#" class="social-link" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram" aria-hidden="true"></i>
+                    <span>Instagram</span>
+                </a>
+                <a href="#" class="social-link" target="_blank" rel="noopener">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                    <span>Facebook</span>
+                </a>
+                <a href="#" class="social-link" target="_blank" rel="noopener">
+                    <i class="fab fa-threads" aria-hidden="true"></i>
+                    <span>Threads</span>
+                </a>
+                <a href="#" class="social-link" target="_blank" rel="noopener">
+                    <i class="fab fa-youtube" aria-hidden="true"></i>
+                    <span>YouTube</span>
+                </a>
+                <a href="#" class="social-link" target="_blank" rel="noopener">
+                    <i class="fab fa-pinterest" aria-hidden="true"></i>
+                    <span>Pinterest</span>
+                </a>
+                <a href="#" class="social-link" target="_blank" rel="noopener">
+                    <i class="fab fa-tiktok" aria-hidden="true"></i>
+                    <span>TikTok</span>
+                </a>
+            </div>
+            <div class="social-stats">
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Followers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Events</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Years</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Elegant Events</h3>
+                    <p>Creating magical moments with stunning decorations since 2019.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#" onclick="togglePartyMode()">Party Mode</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +1 (234) 567-8900</li>
+                        <li><i class="fas fa-envelope"></i> hello@elegantevents.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-7PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Elegant Events. All rights reserved. | Crafted with care for beautiful celebrations</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Portfolio Images -->
+    <div class="modal" id="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <img class="modal-image" id="modal-image" alt="">
+            <div class="modal-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- JavaScript Files - Load in order -->
+    <script src="js/config/portfolio-config.js"></script>
+    <script src="js/components/animations.js"></script>
+    <script src="js/components/navigation.js"></script>
+    <script src="js/components/portfolio.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
