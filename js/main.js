@@ -1,78 +1,135 @@
 /**
- * Main Application Controller - Updated for new layout
+ * Main Application Controller for AA Decor
+ * Complete version without syntax errors
  */
 
+// Main Application Class
 class MainApp {
   constructor() {
     this.isLoaded = false;
-    this.controllers = {};
     this.currentServiceSlide = 0;
-    this.isPartyMode = false;
     this.serviceSlideInterval = null;
-    
     this.init();
   }
 
   async init() {
     try {
       this.showLoading();
-      this.setupErrorHandling();
-      this.setupAccessibilityFeatures();
       
+      // Wait for DOM to be ready
       if (document.readyState === 'loading') {
         await new Promise(resolve => {
           document.addEventListener('DOMContentLoaded', resolve);
         });
       }
       
-      await this.initializeComponents();
-      this.setupGlobalEventListeners();
-      this.hideLoading();
+      // Initialize all components
+      this.initializeLogo();
+      this.createPortfolio();
+      this.createServicesSlider();
+      this.enhanceFloatingElements();
+      this.setupModal();
+      this.setupNavigation();
+      this.startAutoSliders();
       
-      this.isLoaded = true;
-      console.log('Elegant Events website loaded successfully');
+      // Hide loading after initialization
+      setTimeout(() => {
+        this.hideLoading();
+        this.isLoaded = true;
+        console.log('AA Decor website loaded successfully');
+      }, 500);
       
     } catch (error) {
       console.error('Error initializing application:', error);
-      this.handleError(error);
+      this.hideLoading();
     }
   }
 
-  async initializeComponents() {
-    // Initialize portfolio
-    this.createPortfolio();
+  initializeLogo() {
+    const logoImg = document.querySelector('.logo-img');
+    const heroLogoBg = document.querySelector('.hero-logo-bg');
     
-    // Initialize services slider
-    this.createServicesSlider();
+    if (logoImg) {
+      logoImg.onerror = function() {
+        this.style.display = 'none';
+        const fallback = document.querySelector('.logo-fallback');
+        if (fallback) {
+          fallback.style.display = 'block';
+        }
+      };
+      
+      logoImg.onload = function() {
+        const fallback = document.querySelector('.logo-fallback');
+        if (fallback) {
+          fallback.style.display = 'none';
+        }
+      };
+    }
     
-    // Initialize floating elements
-    this.createFloatingElements();
-    
-    // Setup modal
-    this.setupModal();
-    
-    // Setup navigation
-    this.setupNavigation();
-    
-    // Start auto-sliders
-    this.startAutoSliders();
+    if (heroLogoBg) {
+      heroLogoBg.style.backgroundImage = "url('images/logo/aa-decor-logo.PNG')";
+    }
   }
 
   createPortfolio() {
     const portfolioGrid = document.getElementById('portfolio-grid');
     if (!portfolioGrid) return;
 
+    // Default portfolio data if PORTFOLIO_DATA is not defined
+    const portfolioData = typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : [
+      {
+        name: "Elegant Wedding Setup",
+        image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=300&fit=crop",
+        description: "Royal wedding decoration with floral arrangements",
+        fallback: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=300&fit=crop"
+      },
+      {
+        name: "Princess Birthday Party",
+        image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop",
+        description: "Magical princess themed birthday celebration",
+        fallback: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop"
+      },
+      {
+        name: "Corporate Gala Night",
+        image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop",
+        description: "Sophisticated corporate annual celebration",
+        fallback: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop"
+      },
+      {
+        name: "Baby Shower Bliss",
+        image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop",
+        description: "Sweet and adorable baby shower decoration",
+        fallback: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop"
+      },
+      {
+        name: "Golden Anniversary",
+        image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop",
+        description: "50th anniversary celebration with golden theme",
+        fallback: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop"
+      },
+      {
+        name: "Custom Theme Party",
+        image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop",
+        description: "Custom themed birthday party",
+        fallback: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop"
+      }
+    ];
+
     portfolioGrid.innerHTML = '';
     
-    PORTFOLIO_DATA.forEach(item => {
+    portfolioData.forEach(item => {
       const portfolioCard = document.createElement('article');
       portfolioCard.className = 'portfolio-card';
+      
+      const imageSrc = item.fallback || item.image;
+      
       portfolioCard.innerHTML = `
-        <img src="${item.image}" 
+        <img src="${imageSrc}" 
              alt="${item.name}" 
              class="portfolio-image" 
              loading="lazy"
-             onclick="app.openModal('${item.image}', '${item.name}', '${item.description}')">
+             onerror="this.src='${item.fallback || 'https://via.placeholder.com/400x300'}'"
+             onclick="app.openModal('${imageSrc}', '${item.name}', '${item.description}')">
         <div class="portfolio-info">
           <h3 class="portfolio-name">${item.name}</h3>
           <p class="portfolio-description">${item.description}</p>
@@ -87,16 +144,37 @@ class MainApp {
     const serviceDots = document.getElementById('service-dots');
     
     if (!servicesTrack || !serviceDots) return;
+    
+    // Default services data if SERVICES_DATA is not defined
+    const servicesData = typeof SERVICES_DATA !== 'undefined' ? SERVICES_DATA : [
+      {
+        title: "Wedding Decorations",
+        description: "Transform your wedding into a fairytale with our elegant decoration services",
+        features: ["Bridal Stage Decoration", "Reception Hall Setup", "Floral Arrangements", "Lighting & Draping"],
+        fallbackImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=400&fit=crop"
+      },
+      {
+        title: "Birthday Parties",
+        description: "Make birthdays unforgettable with themed decorations for all ages",
+        features: ["Balloon Decorations", "Theme-based Setup", "Kids Party Special", "Cake Table Design"],
+        fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop"
+      },
+      {
+        title: "Corporate Events",
+        description: "Professional decoration services for corporate functions and galas",
+        features: ["Conference Setup", "Product Launch Events", "Annual Day Celebrations", "Award Ceremonies"],
+        fallbackImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop"
+      }
+    ];
 
     servicesTrack.innerHTML = '';
     serviceDots.innerHTML = '';
     
-    SERVICES_DATA.forEach((service, index) => {
-      // Create service slide
+    servicesData.forEach((service, index) => {
       const serviceSlide = document.createElement('div');
       serviceSlide.className = 'service-slide';
       
-      const currentImage = service.images[0]; // Show first image
+      const currentImage = service.fallbackImage || service.images?.[0] || 'https://via.placeholder.com/600x400';
       
       serviceSlide.innerHTML = `
         <div class="service-content">
@@ -110,7 +188,8 @@ class MainApp {
           <img src="${currentImage}" 
                alt="${service.title}" 
                class="service-image"
-               loading="lazy">
+               loading="lazy"
+               onerror="this.src='https://via.placeholder.com/600x400'">
         </div>
       `;
       servicesTrack.appendChild(serviceSlide);
@@ -125,10 +204,20 @@ class MainApp {
   }
 
   changeServiceSlide(direction) {
+    const servicesData = typeof SERVICES_DATA !== 'undefined' ? SERVICES_DATA : [{}, {}, {}];
+    
     this.currentServiceSlide += direction;
-    if (this.currentServiceSlide >= SERVICES_DATA.length) this.currentServiceSlide = 0;
-    if (this.currentServiceSlide < 0) this.currentServiceSlide = SERVICES_DATA.length - 1;
+    if (this.currentServiceSlide >= servicesData.length) {
+      this.currentServiceSlide = 0;
+    }
+    if (this.currentServiceSlide < 0) {
+      this.currentServiceSlide = servicesData.length - 1;
+    }
     this.updateServiceSlider();
+    
+    // Reset auto-slide timer
+    this.stopAutoSliders();
+    this.startAutoSliders();
   }
 
   goToServiceSlide(index) {
@@ -150,75 +239,84 @@ class MainApp {
   }
 
   startAutoSliders() {
-    // Auto-advance services slider
+    const enableAutoSlider = typeof SITE_CONFIG !== 'undefined' ? SITE_CONFIG.enableAutoSlider : true;
+    const autoSlideInterval = typeof SITE_CONFIG !== 'undefined' ? SITE_CONFIG.autoSlideInterval : 5000;
+    
+    if (!enableAutoSlider) return;
+    
     this.serviceSlideInterval = setInterval(() => {
       this.changeServiceSlide(1);
-    }, 6000);
+    }, autoSlideInterval);
   }
 
   stopAutoSliders() {
     if (this.serviceSlideInterval) {
       clearInterval(this.serviceSlideInterval);
+      this.serviceSlideInterval = null;
     }
   }
 
-  createFloatingElements() {
+  enhanceFloatingElements() {
     const container = document.getElementById('floating-elements');
     if (!container) return;
 
-    const elements = ['🎈', '🌸', '🌺', '🎂', '🧁', '⭐', '✨', '🎉', '🎊', '🦋', '🌟'];
-    const colors = ['#ff6b9d', '#ffd700', '#6c5ce7', '#a8e6cf'];
+    const elements = [
+      { emoji: '🎈', color: '#ff6b9d' },
+      { emoji: '🌸', color: '#ff6b9d' },
+      { emoji: '🌺', color: '#ffd700' },
+      { emoji: '🎂', color: '#ffd700' },
+      { emoji: '🧁', color: '#ff6b9d' },
+      { emoji: '⭐', color: '#ffd700' },
+      { emoji: '✨', color: '#ffd700' },
+      { emoji: '🎉', color: '#6c5ce7' },
+      { emoji: '🎊', color: '#a8e6cf' },
+      { emoji: '🦋', color: '#6c5ce7' },
+      { emoji: '🌟', color: '#ffd700' },
+      { emoji: '🌼', color: '#a8e6cf' },
+      { emoji: '🌷', color: '#ff6b9d' },
+      { emoji: '🍰', color: '#fdcb6e' },
+      { emoji: '🎁', color: '#e84393' }
+    ];
 
-    // Create initial static elements
-    for (let i = 0; i < 20; i++) {
-      const element = document.createElement('div');
-      element.className = 'floating-element';
-      element.textContent = elements[Math.floor(Math.random() * elements.length)];
-      element.style.cssText = `
-        left: ${Math.random() * 100}%;
-        top: ${Math.random() * 100}%;
-        color: ${colors[Math.floor(Math.random() * colors.length)]};
-        animation-delay: ${Math.random() * 5}s;
-        font-size: ${1 + Math.random() * 1.5}rem;
-      `;
-      element.setAttribute('aria-hidden', 'true');
-      container.appendChild(element);
-    }
-
-    // Create floating elements periodically
+    // Create dynamic floating elements periodically
     setInterval(() => {
-      if (container.children.length > 30) return; // Limit elements
+      if (container.children.length > 30) return;
       
+      const elementData = elements[Math.floor(Math.random() * elements.length)];
       const element = document.createElement('div');
-      element.className = 'floating-element';
-      element.textContent = elements[Math.floor(Math.random() * elements.length)];
+      element.className = 'floating-element dynamic';
+      element.textContent = elementData.emoji;
       element.style.cssText = `
         left: ${Math.random() * 100}%;
-        top: 100%;
-        color: ${colors[Math.floor(Math.random() * colors.length)]};
-        animation: balloonRise ${10 + Math.random() * 10}s linear;
-        font-size: ${1 + Math.random() * 1.5}rem;
+        bottom: -50px;
+        color: ${elementData.color};
+        font-size: ${1.5 + Math.random() * 1.5}rem;
+        animation: riseAnimation ${15 + Math.random() * 10}s linear;
+        opacity: ${0.7 + Math.random() * 0.3};
       `;
       element.setAttribute('aria-hidden', 'true');
       container.appendChild(element);
       
       setTimeout(() => {
-        if (element.parentNode) element.remove();
-      }, 20000);
-    }, 3000);
+        if (element.parentNode) {
+          element.remove();
+        }
+      }, 25000);
+    }, 2000);
   }
 
   setupModal() {
     const modal = document.getElementById('modal');
-    const modalImage = document.getElementById('modal-image');
     const modalClose = document.getElementById('modal-close');
     
-    if (!modal || !modalImage || !modalClose) return;
+    if (!modal || !modalClose) return;
 
     modalClose.addEventListener('click', () => this.closeModal());
     
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) this.closeModal();
+      if (e.target === modal) {
+        this.closeModal();
+      }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -231,10 +329,19 @@ class MainApp {
   openModal(imageSrc, title, description) {
     const modal = document.getElementById('modal');
     const modalImage = document.getElementById('modal-image');
+    const modalCaption = document.getElementById('modal-caption');
     
     if (modal && modalImage) {
       modalImage.src = imageSrc;
       modalImage.alt = title;
+      
+      if (modalCaption) {
+        modalCaption.innerHTML = `
+          <h3>${title}</h3>
+          <p>${description}</p>
+        `;
+      }
+      
       modal.style.display = 'block';
       document.body.style.overflow = 'hidden';
     }
@@ -249,7 +356,6 @@ class MainApp {
   }
 
   setupNavigation() {
-    // Mobile menu
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navMenu = document.getElementById('nav-menu');
     
@@ -263,7 +369,7 @@ class MainApp {
       });
     }
 
-    // Smooth scrolling
+    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -271,7 +377,7 @@ class MainApp {
         const targetElement = document.querySelector(targetId);
         
         if (targetElement) {
-          const headerHeight = document.querySelector('.header').offsetHeight + 60; // Include top bar
+          const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
           const targetPosition = targetElement.offsetTop - headerHeight;
           
           window.scrollTo({
@@ -279,165 +385,27 @@ class MainApp {
             behavior: 'smooth'
           });
           
-          // Close mobile menu
-          if (navMenu) navMenu.classList.remove('active');
+          // Close mobile menu if open
+          if (navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            const icon = mobileMenuBtn?.querySelector('i');
+            if (icon) {
+              icon.className = 'fas fa-bars';
+            }
+          }
         }
       });
     });
 
-    // Header scroll behavior
-    let lastScrollY = window.scrollY;
+    // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.querySelector('.header');
-      const topBar = document.querySelector('.top-contact-bar');
-      
       if (window.scrollY > 100) {
         header?.classList.add('scrolled');
-        if (topBar) topBar.style.transform = 'translateY(-100%)';
       } else {
         header?.classList.remove('scrolled');
-        if (topBar) topBar.style.transform = 'translateY(0)';
       }
     });
-  }
-
-  togglePartyMode() {
-    this.isPartyMode = !this.isPartyMode;
-    document.body.classList.toggle('party-mode', this.isPartyMode);
-    
-    const toggleBtn = document.querySelector('.theme-toggle span');
-    if (toggleBtn) {
-      toggleBtn.textContent = this.isPartyMode ? 'Normal Mode' : 'Party Mode';
-    }
-    
-    // Add extra floating elements in party mode
-    if (this.isPartyMode) {
-      this.addPartyElements();
-    }
-    
-    this.announce(this.isPartyMode ? 'Party mode activated!' : 'Normal mode restored');
-  }
-
-  addPartyElements() {
-    const container = document.getElementById('floating-elements');
-    if (!container) return;
-
-    const partyElements = ['🎊', '🎉', '🥳', '🍰', '🎁', '🎭', '🪩'];
-    
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
-        const element = document.createElement('div');
-        element.className = 'floating-element party-element';
-        element.textContent = partyElements[Math.floor(Math.random() * partyElements.length)];
-        element.style.cssText = `
-          left: ${Math.random() * 100}%;
-          top: 100%;
-          color: #ff1493;
-          animation: balloonRise 8s linear;
-          font-size: ${2 + Math.random()}rem;
-        `;
-        element.setAttribute('aria-hidden', 'true');
-        container.appendChild(element);
-        
-        setTimeout(() => {
-          if (element.parentNode) element.remove();
-        }, 8000);
-      }, i * 200);
-    }
-  }
-
-  setupErrorHandling() {
-    window.addEventListener('error', (event) => {
-      console.error('Global error:', event.error);
-      this.handleError(event.error);
-    });
-
-    window.addEventListener('unhandledrejection', (event) => {
-      console.error('Unhandled promise rejection:', event.reason);
-      this.handleError(event.reason);
-    });
-  }
-
-  setupAccessibilityFeatures() {
-    // Add announcement region
-    const announcements = document.createElement('div');
-    announcements.id = 'announcements';
-    announcements.setAttribute('aria-live', 'polite');
-    announcements.setAttribute('aria-atomic', 'true');
-    announcements.className = 'sr-only';
-    document.body.appendChild(announcements);
-
-    // Setup focus management
-    this.setupFocusManagement();
-  }
-
-  setupFocusManagement() {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        const modal = document.querySelector('.modal[style*="block"]');
-        if (modal) {
-          this.trapFocus(e, modal);
-        }
-      }
-    });
-  }
-
-  trapFocus(event, container) {
-    const focusableElements = container.querySelectorAll(
-      'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-    );
-    
-    const firstFocusable = focusableElements[0];
-    const lastFocusable = focusableElements[focusableElements.length - 1];
-
-    if (event.shiftKey) {
-      if (document.activeElement === firstFocusable) {
-        lastFocusable.focus();
-        event.preventDefault();
-      }
-    } else {
-      if (document.activeElement === lastFocusable) {
-        firstFocusable.focus();
-        event.preventDefault();
-      }
-    }
-  }
-
-  setupGlobalEventListeners() {
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        this.handleResize();
-      }, 250);
-    });
-
-    // Handle visibility change
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        this.stopAutoSliders();
-      } else {
-        this.startAutoSliders();
-      }
-    });
-
-    // Handle online/offline status
-    window.addEventListener('online', () => {
-      this.announce('Connection restored');
-    });
-
-    window.addEventListener('offline', () => {
-      this.announce('Connection lost');
-    });
-  }
-
-  // Utility methods
-  announce(message) {
-    const announcements = document.getElementById('announcements');
-    if (announcements) {
-      announcements.textContent = message;
-    }
   }
 
   showLoading() {
@@ -457,24 +425,12 @@ class MainApp {
     }
   }
 
-  handleError(error) {
-    console.error('Application error:', error);
-    this.announce('An error occurred. Please refresh the page if problems persist.');
-  }
-
-  handleResize() {
-    window.dispatchEvent(new CustomEvent('app:resize', {
-      detail: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isMobile: window.innerWidth <= 768
-      }
-    }));
-  }
-
-  // Public API methods
-  isReady() {
-    return this.isLoaded;
+  handleVisibilityChange() {
+    if (document.hidden) {
+      this.stopAutoSliders();
+    } else {
+      this.startAutoSliders();
+    }
   }
 
   destroy() {
@@ -483,492 +439,77 @@ class MainApp {
   }
 }
 
-// Initialize the application
-const app = new MainApp();
-
-// Global functions for onclick handlers
-window.changeServiceSlide = (direction) => app.changeServiceSlide(direction);
-window.togglePartyMode = () => app.togglePartyMode();
-window.openModal = (src, title, desc) => app.openModal(src, title, desc);
-
-// Export for global access
-window.app = app;
-window.MainApp = MainApp;
-
-// Development helpers
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  window.dev = {
-    app,
-    data: {
-      portfolio: PORTFOLIO_DATA,
-      services: SERVICES_DATA
-    },
-    togglePartyMode: () => app.togglePartyMode(),
-    openModal: (src, title, desc) => app.openModal(src, title, desc)
-  };
+// Add animation styles dynamically
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes riseAnimation {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
   
-  console.log('Development tools available at window.dev');
-}/**
- * Main Application Controller
- * Coordinates all components and handles global functionality
- */
-
-class MainApp {
-  constructor() {
-    this.isLoaded = false;
-    this.controllers = {};
-    this.utils = {};
-    
-    this.init();
+  .nav-menu.active {
+    display: flex !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 1000;
   }
-
-  async init() {
-    try {
-      // Show loading indicator
-      this.showLoading();
-      
-      // Initialize core functionality
-      this.setupErrorHandling();
-      this.setupPerformanceOptimizations();
-      this.setupAccessibilityFeatures();
-      
-      // Wait for DOM to be fully loaded
-      if (document.readyState === 'loading') {
-        await new Promise(resolve => {
-          document.addEventListener('DOMContentLoaded', resolve);
-        });
-      }
-      
-      // Initialize all controllers
-      await this.initializeControllers();
-      
-      // Setup global event listeners
-      this.setupGlobalEventListeners();
-      
-      // Initialize contact information
-      this.initializeContactInfo();
-      
-      // Hide loading indicator
-      this.hideLoading();
-      
-      this.isLoaded = true;
-      console.log('Elegant Events website loaded successfully');
-      
-    } catch (error) {
-      console.error('Error initializing application:', error);
-      this.handleError(error);
+  
+  @media (max-width: 768px) {
+    .nav-menu {
+      display: none;
     }
   }
+`;
+document.head.appendChild(style);
 
-  async initializeControllers() {
-    try {
-      // Controllers will be initialized by their respective files
-      // This is just to ensure they're ready
-      await this.waitForControllers();
-      
-      // Store references for easy access
-      this.controllers = {
-        navigation: window.navigationController,
-        portfolio: window.portfolioController,
-        animation: window.animationController
-      };
-      
-    } catch (error) {
-      console.error('Error initializing controllers:', error);
-    }
-  }
+// Initialize the application
+let app;
 
-  waitForControllers() {
-    return new Promise((resolve) => {
-      const checkControllers = () => {
-        if (window.navigationController && window.portfolioController && window.animationController) {
-          resolve();
-        } else {
-          setTimeout(checkControllers, 100);
-        }
-      };
-      checkControllers();
-    });
-  }
-
-  setupErrorHandling() {
-    // Global error handler
-    window.addEventListener('error', (event) => {
-      console.error('Global error:', event.error);
-      this.handleError(event.error);
-    });
-
-    // Unhandled promise rejection handler
-    window.addEventListener('unhandledrejection', (event) => {
-      console.error('Unhandled promise rejection:', event.reason);
-      this.handleError(event.reason);
-    });
-  }
-
-  setupPerformanceOptimizations() {
-    // Preload critical resources
-    this.preloadCriticalResources();
-    
-    // Setup intersection observer for performance
-    this.setupIntersectionObserver();
-    
-    // Optimize images
-    this.optimizeImages();
-    
-    // Setup service worker if available
-    this.setupServiceWorker();
-  }
-
-  preloadCriticalResources() {
-    const criticalImages = [
-      'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=400&fit=crop&auto=format'
-    ];
-    
-    criticalImages.forEach(src => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = src;
-      document.head.appendChild(link);
-    });
-  }
-
-  setupIntersectionObserver() {
-    const observerOptions = {
-      rootMargin: '50px 0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-viewport');
-          
-          // Trigger any lazy loading or animations
-          this.handleElementInView(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // Observe all sections and major elements
-    document.querySelectorAll('section, .service-card, .portfolio-category').forEach(el => {
-      observer.observe(el);
-    });
-  }
-
-  handleElementInView(element) {
-    // Trigger lazy loading for images
-    const images = element.querySelectorAll('img[data-src]');
-    images.forEach(img => {
-      if (img.dataset.src) {
-        img.src = img.dataset.src;
-        img.removeAttribute('data-src');
-      }
-    });
-  }
-
-  optimizeImages() {
-    // Add loading="lazy" to images that don't have it
-    const images = document.querySelectorAll('img:not([loading])');
-    images.forEach(img => {
-      img.loading = 'lazy';
-    });
-  }
-
-  setupServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          console.log('Service Worker registered:', registration);
-        })
-        .catch(error => {
-          console.log('Service Worker registration failed:', error);
-        });
-    }
-  }
-
-  setupAccessibilityFeatures() {
-    // Add skip links
-    this.addSkipLinks();
-    
-    // Setup focus management
-    this.setupFocusManagement();
-    
-    // Setup keyboard navigation
-    this.setupKeyboardNavigation();
-    
-    // Setup ARIA live regions
-    this.setupLiveRegions();
-  }
-
-  addSkipLinks() {
-    const skipLinks = [
-      { href: '#main', text: 'Skip to main content' },
-      { href: '#portfolio', text: 'Skip to portfolio' },
-      { href: '#contact', text: 'Skip to contact' }
-    ];
-
-    const skipNav = document.createElement('nav');
-    skipNav.className = 'skip-links';
-    skipNav.setAttribute('aria-label', 'Skip links');
-
-    skipLinks.forEach(link => {
-      const a = document.createElement('a');
-      a.href = link.href;
-      a.textContent = link.text;
-      a.className = 'skip-link';
-      skipNav.appendChild(a);
-    });
-
-    document.body.insertBefore(skipNav, document.body.firstChild);
-  }
-
-  setupFocusManagement() {
-    // Trap focus in modals
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        const modal = document.querySelector('.modal[style*="block"]');
-        if (modal) {
-          this.trapFocus(e, modal);
-        }
-      }
-    });
-  }
-
-  trapFocus(event, container) {
-    const focusableElements = container.querySelectorAll(
-      'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-    );
-    
-    const firstFocusable = focusableElements[0];
-    const lastFocusable = focusableElements[focusableElements.length - 1];
-
-    if (event.shiftKey) {
-      if (document.activeElement === firstFocusable) {
-        lastFocusable.focus();
-        event.preventDefault();
-      }
-    } else {
-      if (document.activeElement === lastFocusable) {
-        firstFocusable.focus();
-        event.preventDefault();
-      }
-    }
-  }
-
-  setupKeyboardNavigation() {
-    // Global keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      // Alt + H for home
-      if (e.altKey && e.key === 'h') {
-        e.preventDefault();
-        this.scrollToSection('#home');
-      }
-      
-      // Alt + P for portfolio
-      if (e.altKey && e.key === 'p') {
-        e.preventDefault();
-        this.scrollToSection('#portfolio');
-      }
-      
-      // Alt + C for contact
-      if (e.altKey && e.key === 'c') {
-        e.preventDefault();
-        this.scrollToSection('#contact');
-      }
-    });
-  }
-
-  setupLiveRegions() {
-    // Create announcement region
-    const announcements = document.createElement('div');
-    announcements.id = 'announcements';
-    announcements.setAttribute('aria-live', 'polite');
-    announcements.setAttribute('aria-atomic', 'true');
-    announcements.className = 'sr-only';
-    document.body.appendChild(announcements);
-  }
-
-  setupGlobalEventListeners() {
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        this.handleResize();
-      }, 250);
-    });
-
-    // Handle scroll
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        this.handleScroll();
-      }, 100);
-    });
-
-    // Handle online/offline status
-    window.addEventListener('online', () => {
-      this.announce('Connection restored');
-    });
-
-    window.addEventListener('offline', () => {
-      this.announce('Connection lost');
-    });
-
-    // Handle print
-    window.addEventListener('beforeprint', () => {
-      this.handlePrint();
-    });
-  }
-
-  initializeContactInfo() {
-    // Update contact information throughout the site
-    const phoneElements = document.querySelectorAll('[href^="tel:"]');
-    phoneElements.forEach(el => {
-      if (el.href === 'tel:+1234567890') {
-        el.href = `tel:${CONTACT_CONFIG.phone}`;
-      }
-    });
-
-    const emailElements = document.querySelectorAll('[href^="mailto:"]');
-    emailElements.forEach(el => {
-      if (el.href.includes('your-email@example.com')) {
-        el.href = `mailto:${CONTACT_CONFIG.email}?subject=Event Decoration Inquiry`;
-      }
-    });
-
-    const whatsappElements = document.querySelectorAll('[href*="wa.me"]');
-    whatsappElements.forEach(el => {
-      if (el.href.includes('1234567890')) {
-        el.href = `https://wa.me/${CONTACT_CONFIG.whatsapp.number}?text=${encodeURIComponent(CONTACT_CONFIG.whatsapp.message)}`;
-      }
-    });
-  }
-
-  // Utility methods
-  scrollToSection(selector) {
-    const element = document.querySelector(selector);
-    if (element && this.controllers.navigation) {
-      this.controllers.navigation.scrollToSection(selector);
-    }
-  }
-
-  announce(message) {
-    const announcements = document.getElementById('announcements');
-    if (announcements) {
-      announcements.textContent = message;
-    }
-  }
-
-  showLoading() {
-    const loading = document.getElementById('loading');
-    if (loading) {
-      loading.classList.add('show');
-    }
-  }
-
-  hideLoading() {
-    const loading = document.getElementById('loading');
-    if (loading) {
-      loading.classList.remove('show');
-      setTimeout(() => {
-        loading.style.display = 'none';
-      }, 300);
-    }
-  }
-
-  handleError(error) {
-    console.error('Application error:', error);
-    
-    // Show user-friendly error message
-    this.announce('An error occurred. Please refresh the page if problems persist.');
-    
-    // In production, you might want to send error reports to a service
-    // this.sendErrorReport(error);
-  }
-
-  handleResize() {
-    // Emit custom resize event for components
-    window.dispatchEvent(new CustomEvent('app:resize', {
-      detail: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isMobile: window.innerWidth <= 768
-      }
-    }));
-  }
-
-  handleScroll() {
-    // Emit custom scroll event for components
-    window.dispatchEvent(new CustomEvent('app:scroll', {
-      detail: {
-        scrollY: window.scrollY,
-        scrollDirection: this.getScrollDirection()
-      }
-    }));
-  }
-
-  getScrollDirection() {
-    const currentScrollY = window.scrollY;
-    const direction = currentScrollY > (this.lastScrollY || 0) ? 'down' : 'up';
-    this.lastScrollY = currentScrollY;
-    return direction;
-  }
-
-  handlePrint() {
-    // Add print-specific classes
-    document.body.classList.add('printing');
-    
-    // Clean up after print
-    setTimeout(() => {
-      document.body.classList.remove('printing');
-    }, 1000);
-  }
-
-  // Public API methods
-  getController(name) {
-    return this.controllers[name];
-  }
-
-  isReady() {
-    return this.isLoaded;
-  }
-
-  destroy() {
-    // Clean up all controllers
-    Object.values(this.controllers).forEach(controller => {
-      if (controller && typeof controller.destroy === 'function') {
-        controller.destroy();
-      }
-    });
-    
-    // Remove event listeners
-    // (In a real app, you'd store references to remove them properly)
-    
-    this.isLoaded = false;
-  }
+// Wait for DOM to be ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    app = new MainApp();
+    window.app = app;
+  });
+} else {
+  app = new MainApp();
+  window.app = app;
 }
 
-// Initialize the application
-const app = new MainApp();
+// Handle visibility change
+document.addEventListener('visibilitychange', () => {
+  if (app) {
+    app.handleVisibilityChange();
+  }
+});
 
-// Export for global access
-window.app = app;
-window.MainApp = MainApp;
+// Make sure PORTFOLIO_DATA and SERVICES_DATA are available globally if defined
+if (typeof PORTFOLIO_DATA !== 'undefined') {
+  window.PORTFOLIO_DATA = PORTFOLIO_DATA;
+}
 
-// Development helpers
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  window.dev = {
-    app,
-    controllers: () => app.controllers,
-    config: {
-      portfolio: PORTFOLIO_CONFIG,
-      contact: CONTACT_CONFIG,
-      site: SITE_CONFIG
-    }
-  };
-  
-  console.log('Development tools available at window.dev');
+if (typeof SERVICES_DATA !== 'undefined') {
+  window.SERVICES_DATA = SERVICES_DATA;
+}
+
+if (typeof SITE_CONFIG !== 'undefined') {
+  window.SITE_CONFIG = SITE_CONFIG;
 }

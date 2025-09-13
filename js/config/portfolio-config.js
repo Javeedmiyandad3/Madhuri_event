@@ -1,162 +1,178 @@
 /**
- * Portfolio Configuration
+ * Portfolio Configuration for AA Decor
  * Add your own images by updating the arrays in each category
  */
 
-const PORTFOLIO_CONFIG = {
-  wedding: {
-    title: "💒 Wedding Decorations",
-    description: "Elegant and romantic wedding setups for your special day",
-    icon: "fas fa-heart",
-    images: [
-      // "images/wedding/wedding1.jpg",
-      // "images/wedding/wedding2.jpg",
-      // "images/wedding/wedding3.jpg"
-    ]
-  },
-  birthday: {
-    title: "🎂 Birthday Parties",
-    description: "Fun and colorful birthday celebrations for all ages",
-    icon: "fas fa-birthday-cake",
-    images: [
-      // "images/birthday/birthday1.jpg",
-      // "images/birthday/birthday2.jpg"
-    ]
-  },
-  corporate: {
-    title: "🏢 Corporate Events",
-    description: "Professional and sophisticated corporate event setups",
-    icon: "fas fa-briefcase",
-    images: [
-      // "images/corporate/corporate1.jpg"
-    ]
-  },
-  babyshower: {
-    title: "👶 Baby Showers",
-    description: "Adorable and sweet baby shower decorations",
-    icon: "fas fa-baby",
-    images: [
-      // "images/babyshower/babyshower1.jpg"
-    ]
-  },
-  anniversary: {
-    title: "💕 Anniversary Celebrations",
-    description: "Romantic anniversary decoration setups",
-    icon: "fas fa-ring", // updated to a valid Font Awesome icon
-    images: [
-      // "images/anniversary/anniversary1.jpg"
-    ]
-  },
-  custom: {
-    title: "🎨 Custom Themes",
-    description: "Unique themed decorations tailored to your vision",
-    icon: "fas fa-star",
-    images: [
-      // "images/custom/custom1.jpg"
-    ]
-  }
-};
-
-// Fallback images for demonstration (replace with your own)
-const FALLBACK_IMAGES = [
+// Portfolio data for simple name/picture cards
+const PORTFOLIO_DATA = [
   {
-    src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500&h=400&fit=crop&auto=format',
-    title: 'Themed Birthday Party',
-    description: 'Colorful themed birthday celebration',
-    category: 'custom'
+    name: "Elegant Wedding Setup",
+    image: "images/portfolio/wedding-setup-1.jpg",
+    description: "Royal wedding decoration with floral arrangements",
+    fallback: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=300&fit=crop&auto=format"
   },
   {
-    src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&h=400&fit=crop&auto=format',
-    title: 'Elegant Wedding Reception',
-    description: 'Beautiful wedding setup with floral arrangements',
-    category: 'wedding'
+    name: "Princess Birthday Party",
+    image: "images/portfolio/birthday-party-1.jpg",
+    description: "Magical princess themed birthday celebration",
+    fallback: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop&auto=format"
   },
   {
-    src: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500&h=400&fit=crop&auto=format',
-    title: 'Garden Birthday Party',
-    description: 'Outdoor birthday celebration with balloons',
-    category: 'birthday'
+    name: "Corporate Gala Night",
+    image: "images/portfolio/corporate-event-1.jpg",
+    description: "Sophisticated corporate annual celebration setup",
+    fallback: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop&auto=format"
   },
   {
-    src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500&h=400&fit=crop&auto=format',
-    title: 'Corporate Gala Night',
-    description: 'Professional corporate event decoration',
-    category: 'corporate'
+    name: "Baby Shower Bliss",
+    image: "images/portfolio/baby-shower-1.jpg",
+    description: "Sweet and adorable baby shower decoration",
+    fallback: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop&auto=format"
   },
   {
-    src: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500&h=400&fit=crop&auto=format',
-    title: 'Romantic Anniversary',
-    description: 'Intimate anniversary celebration setup',
-    category: 'anniversary'
+    name: "Golden Anniversary",
+    image: "images/portfolio/anniversary-1.jpg",
+    description: "50th anniversary celebration with golden theme",
+    fallback: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop&auto=format"
   },
   {
-    src: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=500&h=400&fit=crop&auto=format',
-    title: 'Baby Shower Bliss',
-    description: 'Sweet baby shower decoration',
-    category: 'babyshower'
+    name: "Superhero Theme Party",
+    image: "images/portfolio/custom-theme-1.jpg",
+    description: "Custom superhero themed birthday party",
+    fallback: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop&auto=format"
   }
 ];
 
-// Animation elements configuration
-const FLOATING_ELEMENTS_CONFIG = {
-  balloons: [
-    { emoji: '🎈', color: '#ff6b9d' },
-    { emoji: '🎈', color: '#ffd700' },
-    { emoji: '🎈', color: '#6c5ce7' },
-    { emoji: '🎈', color: '#a8e6cf' }
-  ],
-  flowers: [
-    { emoji: '🌸', color: '#ff6b9d' },
-    { emoji: '🌺', color: '#ffd700' },
-    { emoji: '🌼', color: '#a8e6cf' },
-    { emoji: '🌷', color: '#ff6b9d' },
-    { emoji: '🌻', color: '#6c5ce7' }
-  ],
-  stars: [
-    { emoji: '⭐', color: '#ffd700' },
-    { emoji: '✨', color: '#ffd700' }
-  ],
-  cakes: [
-    { emoji: '🎂', color: '#ffd700' },
-    { emoji: '🧁', color: '#ff6b9d' }
-  ],
-  confetti: [
-    { color: '#ff6b9d' },
-    { color: '#ffd700' },
-    { color: '#6c5ce7' },
-    { color: '#a8e6cf' }
-  ]
-};
+// Services data for slider
+const SERVICES_DATA = [
+  {
+    title: "👑 Wedding Decorations",
+    description: "Transform your wedding into a fairytale with our elegant decoration services",
+    features: [
+      "Bridal Stage Decoration",
+      "Reception Hall Setup",
+      "Floral Arrangements",
+      "Lighting & Draping"
+    ],
+    images: [
+      "images/services/wedding-services/ceremony-setup.jpg",
+      "images/services/wedding-services/reception-hall.jpg",
+      "images/services/wedding-services/bridal-decoration.jpg"
+    ],
+    fallbackImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=400&fit=crop&auto=format"
+  },
+  {
+    title: "🎂 Birthday Parties",
+    description: "Make birthdays unforgettable with themed decorations for all ages",
+    features: [
+      "Balloon Decorations",
+      "Theme-based Setup",
+      "Kids Party Special",
+      "Cake Table Design"
+    ],
+    images: [
+      "images/services/birthday-services/balloon-arch.jpg",
+      "images/services/birthday-services/theme-party.jpg",
+      "images/services/birthday-services/kids-setup.jpg"
+    ],
+    fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop&auto=format"
+  },
+  {
+    title: "🏢 Corporate Events",
+    description: "Professional decoration services for corporate functions and galas",
+    features: [
+      "Conference Setup",
+      "Product Launch Events",
+      "Annual Day Celebrations",
+      "Award Ceremonies"
+    ],
+    images: [
+      "images/services/corporate-services/conference-setup.jpg",
+      "images/services/corporate-services/gala-night.jpg",
+      "images/services/corporate-services/product-launch.jpg"
+    ],
+    fallbackImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop&auto=format"
+  },
+  {
+    title: "👶 Baby Showers",
+    description: "Adorable decorations for welcoming your little bundle of joy",
+    features: [
+      "Gender Reveal Parties",
+      "Pastel Theme Decorations",
+      "Photo Booth Setup",
+      "Welcome Baby Setups"
+    ],
+    images: [
+      "images/services/babyshower-services/gender-reveal.jpg",
+      "images/services/babyshower-services/pastel-setup.jpg",
+      "images/services/babyshower-services/welcome-baby.jpg"
+    ],
+    fallbackImage: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&h=400&fit=crop&auto=format"
+  },
+  {
+    title: "💕 Anniversary Celebrations",
+    description: "Romantic setups to celebrate your milestones of love",
+    features: [
+      "Intimate Dinner Setup",
+      "Vow Renewal Ceremonies",
+      "Milestone Celebrations",
+      "Surprise Arrangements"
+    ],
+    images: [
+      "images/services/anniversary-services/romantic-dinner.jpg",
+      "images/services/anniversary-services/renewal-ceremony.jpg",
+      "images/services/anniversary-services/milestone-celebration.jpg"
+    ],
+    fallbackImage: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&h=400&fit=crop&auto=format"
+  },
+  {
+    title: "🎨 Custom Themes",
+    description: "Unique themed decorations tailored to your vision",
+    features: [
+      "Vintage & Retro Themes",
+      "Modern Minimalist",
+      "Outdoor Garden Parties",
+      "Cultural Celebrations"
+    ],
+    images: [
+      "images/services/custom-services/vintage-theme.jpg",
+      "images/services/custom-services/modern-minimalist.jpg",
+      "images/services/custom-services/outdoor-garden.jpg"
+    ],
+    fallbackImage: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&h=400&fit=crop&auto=format"
+  }
+];
 
 // Contact information configuration
 const CONTACT_CONFIG = {
   phone: '+1234567890',
-  email: 'hello@elegantevents.com',
+  email: 'hello@aadecor.com',
   whatsapp: {
     number: '1234567890',
     message: 'Hi! I\'m interested in your event decoration services.'
   },
   social: {
-    facebook: '#',
-    instagram: '#',
-    pinterest: '#'
+    facebook: 'https://facebook.com/aadecor',
+    instagram: 'https://instagram.com/aadecor',
+    youtube: 'https://youtube.com/@aadecor'
   },
   hours: {
     weekdays: '9AM-7PM',
     weekend: 'By appointment'
-  }
+  },
+  address: 'Your City, State'
 };
 
 // Site configuration
 const SITE_CONFIG = {
-  name: 'Elegant Events',
-  tagline: 'Creating magical moments with stunning decorations',
+  name: 'AA Decor',
+  tagline: 'Creating Magical Moments',
   description: 'Professional event decoration services for weddings, birthdays, corporate events, and more.',
-  keywords: ['event decoration', 'wedding decoration', 'birthday party', 'corporate events', 'event planning'],
+  keywords: ['event decoration', 'wedding decoration', 'birthday party', 'corporate events', 'AA Decor'],
   foundedYear: 2019,
   experience: '5+',
-  autoSlideInterval: 5000, // milliseconds
-  animationSpeed: 'normal', // 'fast', 'normal', 'slow'
+  autoSlideInterval: 5000,
+  animationSpeed: 'normal',
   enableFloatingElements: true,
   enableAutoSlider: true
 };
@@ -164,12 +180,12 @@ const SITE_CONFIG = {
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    PORTFOLIO_CONFIG,
-    FALLBACK_IMAGES,
-    FLOATING_ELEMENTS_CONFIG,
+    PORTFOLIO_DATA,
+    SERVICES_DATA,
     CONTACT_CONFIG,
     SITE_CONFIG
   };
 }
-
-
+// At the end of portfolio-config.js, add:
+window.PORTFOLIO_DATA = PORTFOLIO_DATA;
+window.SERVICES_DATA = SERVICES_DATA;

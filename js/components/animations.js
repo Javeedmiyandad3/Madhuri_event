@@ -78,40 +78,52 @@ class AnimationController {
   }
 
   createFloatingElement(container) {
-    if (this.floatingElements.length > 20) {
-      // Clean up old elements
+    if (this.floatingElements.length > 25) {
       this.cleanupFloatingElements();
     }
 
-    const types = ['balloon', 'flower', 'star', 'cake'];
-    const type = types[Math.floor(Math.random() * types.length)];
-    const config = FLOATING_ELEMENTS_CONFIG[type + 's'];
+    const elements = [
+      { emoji: '🎈', type: 'balloon', speed: 15 },
+      { emoji: '🎂', type: 'cake', speed: 18 },
+      { emoji: '🧁', type: 'cake', speed: 16 },
+      { emoji: '🌸', type: 'flower', speed: 20 },
+      { emoji: '🌺', type: 'flower', speed: 22 },
+      { emoji: '🌼', type: 'flower', speed: 19 },
+      { emoji: '🌷', type: 'flower', speed: 21 },
+      { emoji: '🌻', type: 'flower', speed: 17 },
+      { emoji: '⭐', type: 'star', speed: 25 },
+      { emoji: '✨', type: 'star', speed: 23 },
+      { emoji: '🎉', type: 'confetti', speed: 12 },
+      { emoji: '🎊', type: 'confetti', speed: 14 },
+      { emoji: '🦋', type: 'butterfly', speed: 30 },
+      { emoji: '🌟', type: 'star', speed: 28 }
+    ];
     
-    if (!config || config.length === 0) return;
-
-    const elementConfig = config[Math.floor(Math.random() * config.length)];
+    const elementConfig = elements[Math.floor(Math.random() * elements.length)];
+    const colors = ['#8E2DE2', '#FF4F81', '#FF8C42', '#FDCB2E', '#1ABC9C', '#2ECC71'];
+    
     const element = document.createElement('div');
-    
-    element.className = `floating-element ${type} balloon-rising`;
+    element.className = `floating-element ${elementConfig.type} rising-animation`;
     element.textContent = elementConfig.emoji;
     element.style.cssText = `
-      left: ${Math.random() * 100}%; 
-      color: ${elementConfig.color}; 
-      animation-delay: ${Math.random() * 2}s;
-      font-size: ${1 + Math.random() * 1.5}rem;
+      left: ${Math.random() * 100}%;
+      bottom: -50px;
+      color: ${colors[Math.floor(Math.random() * colors.length)]};
+      font-size: ${1.2 + Math.random() * 1.8}rem;
+      animation: elegantRise ${elementConfig.speed + Math.random() * 10}s linear infinite;
+      opacity: ${0.7 + Math.random() * 0.3};
     `;
     element.setAttribute('aria-hidden', 'true');
     
     container.appendChild(element);
     this.floatingElements.push(element);
 
-    // Remove element after animation
     setTimeout(() => {
       if (element.parentNode) {
         element.parentNode.removeChild(element);
       }
       this.floatingElements = this.floatingElements.filter(el => el !== element);
-    }, 15000);
+    }, (elementConfig.speed + 10) * 1000);
   }
 
   cleanupFloatingElements() {
