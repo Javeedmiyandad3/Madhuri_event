@@ -145,22 +145,22 @@ const SERVICES_DATA = [
 
 // Contact information configuration
 const CONTACT_CONFIG = {
-  phone: '+1234567890',
-  email: 'hello@aadecor.com',
+  phone: '+6122089898',
+  email: 'aaeventdecor.llc@gmail.com',
   whatsapp: {
-    number: '1234567890',
+    number: '+6122089898',
     message: 'Hi! I\'m interested in your event decoration services.'
   },
   social: {
     facebook: 'https://facebook.com/aadecor',
-    instagram: 'https://instagram.com/aadecor',
+    instagram: 'https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q ',
     youtube: 'https://youtube.com/@aadecor'
   },
   hours: {
     weekdays: '9AM-7PM',
     weekend: 'By appointment'
   },
-  address: 'Your City, State'
+  address: 'Maple Grove , Minnesota'
 };
 
 // Site configuration
