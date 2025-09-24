@@ -1,6 +1,6 @@
 /**
- * Main Application Controller for AA Decor
- * Complete version without syntax errors
+ * Main Application Controller for AA Event Decor and Rentals
+ * Complete version with multiple image support and auto-detection
  */
 
 // Main Application Class
@@ -9,6 +9,8 @@ class MainApp {
     this.isLoaded = false;
     this.currentServiceSlide = 0;
     this.serviceSlideInterval = null;
+    this.portfolioCurrentSlides = [];
+    this.portfolioImageCache = new Map();
     this.init();
   }
 
@@ -25,7 +27,7 @@ class MainApp {
       
       // Initialize all components
       this.initializeLogo();
-      this.createPortfolio();
+      await this.createPortfolioWithImageDetection();
       this.createServicesSlider();
       this.enhanceFloatingElements();
       this.setupModal();
@@ -36,7 +38,7 @@ class MainApp {
       setTimeout(() => {
         this.hideLoading();
         this.isLoaded = true;
-        console.log('AA Decor website loaded successfully');
+        console.log('AA Event Decor and Rentals website loaded successfully');
       }, 500);
       
     } catch (error) {
@@ -71,71 +73,199 @@ class MainApp {
     }
   }
 
-  createPortfolio() {
+  // Auto-detect images in portfolio folders
+  async createPortfolioWithImageDetection() {
     const portfolioGrid = document.getElementById('portfolio-grid');
     if (!portfolioGrid) return;
 
-    // Default portfolio data if PORTFOLIO_DATA is not defined
-    const portfolioData = typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : [
-      {
-        name: "Elegant Wedding Setup",
-        image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=300&fit=crop",
-        description: "Royal wedding decoration with floral arrangements",
-        fallback: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=300&fit=crop"
-      },
-      {
-        name: "Princess Birthday Party",
-        image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop",
-        description: "Magical princess themed birthday celebration",
-        fallback: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop"
-      },
-      {
-        name: "Corporate Gala Night",
-        image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop",
-        description: "Sophisticated corporate annual celebration",
-        fallback: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop"
-      },
-      {
-        name: "Baby Shower Bliss",
-        image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop",
-        description: "Sweet and adorable baby shower decoration",
-        fallback: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop"
-      },
-      {
-        name: "Golden Anniversary",
-        image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop",
-        description: "50th anniversary celebration with golden theme",
-        fallback: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop"
-      },
-      {
-        name: "Custom Theme Party",
-        image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop",
-        description: "Custom themed birthday party",
-        fallback: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop"
-      }
-    ];
-
     portfolioGrid.innerHTML = '';
     
-    portfolioData.forEach(item => {
-      const portfolioCard = document.createElement('article');
-      portfolioCard.className = 'portfolio-card';
-      
-      const imageSrc = item.fallback || item.image;
-      
-      portfolioCard.innerHTML = `
-        <img src="${imageSrc}" 
-             alt="${item.name}" 
-             class="portfolio-image" 
-             loading="lazy"
-             onerror="this.src='${item.fallback || 'https://via.placeholder.com/400x300'}'"
-             onclick="app.openModal('${imageSrc}', '${item.name}', '${item.description}')">
-        <div class="portfolio-info">
-          <h3 class="portfolio-name">${item.name}</h3>
-          <p class="portfolio-description">${item.description}</p>
+    // Get portfolio data from config
+    const portfolioData = typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : [];
+    
+    for (let i = 0; i < portfolioData.length; i++) {
+      const item = portfolioData[i];
+      const detectedImages = await this.detectPortfolioImages(item);
+      await this.createPortfolioCard(item, detectedImages, i, portfolioGrid);
+    }
+    
+    // Initialize portfolio slide tracking
+    this.portfolioCurrentSlides = new Array(portfolioData.length).fill(0);
+  }
+
+  // Detect available images for a portfolio item
+  async detectPortfolioImages(item) {
+    const images = [];
+    const folderPath = item.folderPath || `images/portfolio/${item.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')}/`;
+    
+    // Try to detect images in the folder
+    const possibleImages = item.possibleImages || [
+      `${folderPath}image-1.jpg`,
+      `${folderPath}image-2.jpg`,
+      `${folderPath}image-3.jpg`,
+      `${folderPath}image-4.jpg`,
+      `${folderPath}image-5.jpg`,
+      `${folderPath}setup-1.jpg`,
+      `${folderPath}setup-2.jpg`,
+      `${folderPath}decoration-1.jpg`,
+      `${folderPath}decoration-2.jpg`,
+      `${folderPath}event-1.jpg`,
+      `${folderPath}event-2.jpg`
+    ];
+
+    // Check each possible image
+    for (const imagePath of possibleImages) {
+      if (await this.imageExists(imagePath)) {
+        images.push(imagePath);
+      }
+    }
+
+    // If no images found, use predefined images from config
+    if (images.length === 0 && item.images) {
+      for (const imagePath of item.images) {
+        if (await this.imageExists(imagePath)) {
+          images.push(imagePath);
+        }
+      }
+    }
+
+    // If still no images, use fallback
+    if (images.length === 0) {
+      images.push(item.fallback || 'https://via.placeholder.com/400x300?text=No+Image');
+    }
+
+    return images;
+  }
+
+  // Check if image exists
+  async imageExists(url) {
+    // Return from cache if already checked
+    if (this.portfolioImageCache.has(url)) {
+      return this.portfolioImageCache.get(url);
+    }
+
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        this.portfolioImageCache.set(url, true);
+        resolve(true);
+      };
+      img.onerror = () => {
+        this.portfolioImageCache.set(url, false);
+        resolve(false);
+      };
+      img.src = url;
+    });
+  }
+
+  // Create individual portfolio card
+  async createPortfolioCard(item, images, index, container) {
+    const portfolioCard = document.createElement('article');
+    portfolioCard.className = 'portfolio-card';
+    portfolioCard.setAttribute('data-portfolio', index);
+    
+    const hasMultipleImages = images.length > 1;
+    
+    portfolioCard.innerHTML = `
+      <div class="portfolio-image-container">
+        ${hasMultipleImages ? this.createImageSlider(images, item, index) : this.createSingleImage(images[0], item)}
+        ${hasMultipleImages ? `<div class="image-count">${images.length} Photos</div>` : ''}
+      </div>
+      <div class="portfolio-info">
+        <h3 class="portfolio-name">${item.name}</h3>
+        <p class="portfolio-description">${item.description}</p>
+      </div>
+    `;
+    
+    container.appendChild(portfolioCard);
+  }
+
+  // Create image slider for multiple images
+  createImageSlider(images, item, index) {
+    return `
+      <div class="portfolio-slider">
+        <div class="portfolio-slides" id="portfolio-slides-${index}">
+          ${images.map((img, imgIndex) => `
+            <img src="${img}" 
+                 alt="${item.name} - Image ${imgIndex + 1}" 
+                 class="portfolio-image ${imgIndex === 0 ? 'active' : ''}" 
+                 loading="lazy"
+                 onerror="this.src='${item.fallback || 'https://via.placeholder.com/400x300'}'"
+                 onclick="app.openModal('${img}', '${item.name}', '${item.description}')">
+          `).join('')}
         </div>
-      `;
-      portfolioGrid.appendChild(portfolioCard);
+        <div class="portfolio-nav" style="opacity: 0;">
+          <button class="portfolio-nav-btn prev" onclick="app.changePortfolioSlide(${index}, -1)" aria-label="Previous image">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="portfolio-nav-btn next" onclick="app.changePortfolioSlide(${index}, 1)" aria-label="Next image">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="portfolio-dots">
+          ${images.map((_, dotIndex) => `
+            <div class="portfolio-dot ${dotIndex === 0 ? 'active' : ''}" 
+                 onclick="app.goToPortfolioSlide(${index}, ${dotIndex})"
+                 aria-label="Go to image ${dotIndex + 1}"></div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // Create single image display
+  createSingleImage(imageSrc, item) {
+    return `
+      <img src="${imageSrc}" 
+           alt="${item.name}" 
+           class="portfolio-image single" 
+           loading="lazy"
+           onerror="this.src='${item.fallback || 'https://via.placeholder.com/400x300'}'"
+           onclick="app.openModal('${imageSrc}', '${item.name}', '${item.description}')">
+    `;
+  }
+
+  // Portfolio slider navigation functions
+  changePortfolioSlide(portfolioIndex, direction) {
+    if (!this.portfolioCurrentSlides) return;
+    
+    const portfolioData = typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : [];
+    if (portfolioIndex >= portfolioData.length) return;
+    
+    const slidesContainer = document.getElementById(`portfolio-slides-${portfolioIndex}`);
+    if (!slidesContainer) return;
+    
+    const totalSlides = slidesContainer.children.length;
+    if (totalSlides <= 1) return;
+    
+    let currentSlide = this.portfolioCurrentSlides[portfolioIndex];
+    currentSlide += direction;
+    
+    if (currentSlide >= totalSlides) currentSlide = 0;
+    if (currentSlide < 0) currentSlide = totalSlides - 1;
+    
+    this.portfolioCurrentSlides[portfolioIndex] = currentSlide;
+    this.updatePortfolioSlider(portfolioIndex, currentSlide);
+  }
+
+  goToPortfolioSlide(portfolioIndex, slideIndex) {
+    if (!this.portfolioCurrentSlides) return;
+    
+    this.portfolioCurrentSlides[portfolioIndex] = slideIndex;
+    this.updatePortfolioSlider(portfolioIndex, slideIndex);
+  }
+
+  updatePortfolioSlider(portfolioIndex, activeSlide) {
+    const slidesContainer = document.getElementById(`portfolio-slides-${portfolioIndex}`);
+    const dots = document.querySelectorAll(`[data-portfolio="${portfolioIndex}"] .portfolio-dot`);
+    
+    if (slidesContainer) {
+      slidesContainer.style.transform = `translateX(-${activeSlide * 100}%)`;
+    }
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === activeSlide);
     });
   }
 
@@ -148,22 +278,22 @@ class MainApp {
     // Default services data if SERVICES_DATA is not defined
     const servicesData = typeof SERVICES_DATA !== 'undefined' ? SERVICES_DATA : [
       {
-        title: "Wedding Decorations",
-        description: "Transform your wedding into a fairytale with our elegant decoration services",
-        features: ["Bridal Stage Decoration", "Reception Hall Setup", "Floral Arrangements", "Lighting & Draping"],
-        fallbackImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=400&fit=crop"
+        title: "Wedding and Bridal Showers",
+        description: "Create your dream wedding with stunning backdrops, elegant table décor, and beautiful balloon garlands",
+        features: ["Custom backdrops & photo walls", "Bridal table styling & centerpieces", "Balloon garlands & arches", "Ceremony & reception décor"],
+        fallbackImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=400&fit=crop&auto=format"
       },
       {
-        title: "Birthday Parties",
-        description: "Make birthdays unforgettable with themed decorations for all ages",
-        features: ["Balloon Decorations", "Theme-based Setup", "Kids Party Special", "Cake Table Design"],
-        fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop"
+        title: "Birthday Theme Setups",
+        description: "Transform birthday celebrations with custom themed décor and balloon arrangements",
+        features: ["Custom themed backdrops", "Balloon décor & installations", "Dessert table styling", "Photo booth props & setups"],
+        fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop&auto=format"
       },
       {
         title: "Corporate Events",
-        description: "Professional decoration services for corporate functions and galas",
-        features: ["Conference Setup", "Product Launch Events", "Annual Day Celebrations", "Award Ceremonies"],
-        fallbackImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop"
+        description: "Professional event décor for corporate functions, meetings, and company celebrations",
+        features: ["Conference & meeting setups", "Corporate branding displays", "Award ceremony décor", "Professional table styling"],
+        fallbackImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop&auto=format"
       }
     ];
 
@@ -275,7 +405,7 @@ class MainApp {
       { emoji: '🌼', color: '#a8e6cf' },
       { emoji: '🌷', color: '#ff6b9d' },
       { emoji: '🍰', color: '#fdcb6e' },
-      { emoji: '🎁', color: '#e84393' }
+      { emoji: '🎀', color: '#e84393' }
     ];
 
     // Create dynamic floating elements periodically
@@ -435,6 +565,7 @@ class MainApp {
 
   destroy() {
     this.stopAutoSliders();
+    this.portfolioImageCache.clear();
     this.isLoaded = false;
   }
 }
@@ -476,6 +607,14 @@ style.textContent = `
     .nav-menu {
       display: none;
     }
+  }
+
+  .portfolio-nav {
+    transition: opacity 0.3s ease;
+  }
+  
+  .portfolio-card:hover .portfolio-nav {
+    opacity: 1 !important;
   }
 `;
 document.head.appendChild(style);

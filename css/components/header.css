@@ -91,7 +91,7 @@
 }
 
 .business-name {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   background: linear-gradient(45deg, #8E2DE2, #FF4F81, #FF8C42);
   -webkit-background-clip: text;
@@ -235,7 +235,7 @@
   }
   
   .business-name {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
   
   .business-tagline {
