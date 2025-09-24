@@ -200,7 +200,7 @@ const CONTACT_CONFIG = {
   phone: '+16122089898',
   email: 'aaeventdecor.llc@gmail.com',
   social: {
-    facebook: 'https://facebook.com/aaeventdecorrentals',
+    facebook: 'https://www.facebook.com/share/1AAjeoxDdh/?mibextid=wwXIfr',
     instagram: 'https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q '
   },
   hours: {
