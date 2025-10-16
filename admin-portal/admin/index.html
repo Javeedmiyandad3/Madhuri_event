@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AA Admin Portal</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Animation for floating messages */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+        
+        /* Header styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        /* Error badge */
+        .error-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        #view-logs-btn {
+            position: relative;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        #view-logs-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.online {
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+        
+        .status-dot.offline {
+            background: #6b7280;
+        }
+        
+        /* Error log entries */
+        .error-log-entry {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .log-time {
+            color: #6b7280;
+            font-size: 12px;
+        }
+        
+        .log-message {
+            color: #1f2937;
+            font-family: monospace;
+            font-size: 13px;
+            word-break: break-word;
+            white-space: pre-wrap;
+            background: rgba(0,0,0,0.03);
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-close {
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .modal-close:hover {
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-palette"></i> AA Event Decor - Admin Portal</h1>
+            <div class="header-actions">
+                <button class="btn-secondary" id="view-logs-btn" style="position: relative;">
+                    <i class="fas fa-exclamation-triangle"></i> Error Log
+                    <span id="error-badge" class="error-badge" style="display: none;">0</span>
+                </button>
+                <div class="status" id="repo-status">
+                    <span class="status-dot offline"></span>
+                    <span>No repository loaded</span>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('repo')">
+                <i class="fas fa-code-branch"></i> Repository
+            </button>
+            <button class="nav-tab" onclick="showSection('config')">
+                <i class="fas fa-edit"></i> Configuration
+            </button>
+            <button class="nav-tab" onclick="showSection('images')">
+                <i class="fas fa-images"></i> Images
+            </button>
+            <button class="nav-tab" onclick="showSection('changes-preview')">
+                <i class="fas fa-eye"></i> Preview & Commit
+            </button>
+        </nav>
+        
+        <main>
+            <!-- Repository Section -->
+            <section id="repo-section" class="section active">
+                <div class="card">
+                    <h2><i class="fas fa-code-branch"></i> Repository Management</h2>
+                    <form id="repo-form">
+                        <div class="field">
+                            <label>GitHub Repository URL:</label>
+                            <input type="url" id="repo-url" placeholder="https://github.com/username/repo" required>
+                        </div>
+                        <div class="field">
+                            <label>GitHub Token:</label>
+                            <input type="password" id="github-token" placeholder="ghp_..." required>
+                            <small>Create token at: <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Tokens</a> (needs 'repo' permission)</small>
+                        </div>
+                        <div class="field">
+                            <label>Local Directory Name:</label>
+                            <input type="text" id="target-path" placeholder="my-website" required>
+                            <small>This will be created in: target-websites/[your-name]</small>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-download"></i> Clone Repository
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h3>Repository Status</h3>
+                    <div id="repo-info">
+                        <p>No repository loaded. Clone a repository to get started.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Configuration Section -->
+            <section id="config-section" class="section">
+                <div class="card">
+                    <h2><i class="fas fa-edit"></i> Contact Information Scanner</h2>
+                    <div class="message info">
+                        <strong>Smart Update:</strong> This will scan and update ALL files in your repository (HTML, JS, CSS, config files) to replace email addresses, phone numbers, and social media links automatically.
+                    </div>
+                    
+                    <form id="config-form">
+                        <div class="form-row">
+                            <div class="field">
+                                <label>Email Address:</label>
+                                <input type="email" id="email" placeholder="aaeventdecor.llc@gmail.com">
+                                <small>Updates all email addresses across the entire site</small>
+                            </div>
+                            <div class="field">
+                                <label>Phone Number:</label>
+                                <input type="tel" id="phone" placeholder="+1 (612) 208-9898">
+                                <small>Updates all phone numbers across the entire site</small>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="field">
+                                <label>Instagram URL:</label>
+                                <input type="url" id="instagram" placeholder="https://instagram.com/yourpage">
+                                <small>Updates all Instagram links</small>
+                            </div>
+                            <div class="field">
+                                <label>Facebook URL:</label>
+                                <input type="url" id="facebook" placeholder="https://facebook.com/yourpage">
+                                <small>Updates all Facebook links</small>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i> Update All Files
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- Images Section -->
+            <section id="images-section" class="section">
+                <div class="card">
+                    <h2><i class="fas fa-images"></i> Image Management</h2>
+                    <div class="message info">
+                        <strong>Smart Features:</strong> Upload images to any category, delete unwanted images, and preview all changes before committing to GitHub.
+                    </div>
+                    
+                    <!-- Primary Categories -->
+                    <div class="category-group">
+                        <h4>Core Images</h4>
+                        <div class="image-nav">
+                            <button class="image-tab active" onclick="showImageCategory('logo')">
+                                <i class="fas fa-star"></i> Logo
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('about')">
+                                <i class="fas fa-info-circle"></i> About
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('hero')">
+                                <i class="fas fa-image"></i> Hero
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Portfolio Categories -->
+                    <div class="category-group">
+                        <h4>Portfolio Images</h4>
+                        <div class="image-nav">
+                            <button class="image-tab" onclick="showImageCategory('wedding')">
+                                <i class="fas fa-ring"></i> Wedding
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('birthday')">
+                                <i class="fas fa-birthday-cake"></i> Birthday
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('babyshower')">
+                                <i class="fas fa-baby"></i> Baby Shower
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('retirement')">
+                                <i class="fas fa-award"></i> Retirement
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('corporate')">
+                                <i class="fas fa-building"></i> Corporate
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('rentals')">
+                                <i class="fas fa-box"></i> Rentals
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Images -->
+                    <div class="category-group">
+                        <h4>Service Images</h4>
+                        <div class="image-nav">
+                            <button class="image-tab" onclick="showImageCategory('services')">
+                                <i class="fas fa-cogs"></i> General Services
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('services-wedding')">
+                                <i class="fas fa-ring"></i> Wedding Services
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('services-birthday')">
+                                <i class="fas fa-birthday-cake"></i> Birthday Services
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('services-babyshower')">
+                                <i class="fas fa-baby"></i> Baby Shower Services
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('services-corporate')">
+                                <i class="fas fa-building"></i> Corporate Services
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('services-retirement')">
+                                <i class="fas fa-award"></i> Retirement Services
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('services-rentals')">
+                                <i class="fas fa-box"></i> Rental Services
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Assets -->
+                    <div class="category-group">
+                        <h4>Additional Assets</h4>
+                        <div class="image-nav">
+                            <button class="image-tab" onclick="showImageCategory('backgrounds')">
+                                <i class="fas fa-mountain"></i> Backgrounds
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('icons')">
+                                <i class="fas fa-icons"></i> Icons
+                            </button>
+                            <button class="image-tab" onclick="showImageCategory('gallery')">
+                                <i class="fas fa-photo-video"></i> Gallery
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="upload-area">
+                        <div class="upload-zone" id="upload-zone">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drop images here or click to upload</h3>
+                            <p>Supports JPG, PNG, WebP, GIF, SVG formats</p>
+                            <input type="file" id="file-input" multiple accept="image/*" hidden>
+                        </div>
+                    </div>
+                    
+                    <!-- Current Category Display -->
+                    <div class="category-header">
+                        <h3 id="current-category">Logo Images</h3>
+                        <div class="category-actions">
+                            <span class="category-path" id="category-path">images/logo</span>
+                            <button class="btn-secondary" onclick="refreshImages()">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Gallery -->
+                    <div class="image-gallery" id="image-gallery">
+                        <div class="no-images">
+                            <i class="fas fa-image"></i>
+                            <p>No images found in this category</p>
+                            <p>Upload some images to get started</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Changes Preview Section -->
+            <section id="changes-preview-section" class="section">
+                <div class="card">
+                    <h2><i class="fas fa-eye"></i> Preview & Commit Changes</h2>
+                    <div class="message info">
+                        <strong>Review Before Commit:</strong> All changes are staged here. Review what will be uploaded/updated, then commit all at once to GitHub.
+                    </div>
+                    
+                    <div id="changes-list">
+                        <div class="no-changes">
+                            <i class="fas fa-info-circle"></i>
+                            <p>No pending changes</p>
+                            <p>Upload images or update configuration to see changes here</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Git Credentials (Hidden - Auto-filled) -->
+                    <div style="display: none;">
+                        <input type="url" id="push-repo-url">
+                        <input type="password" id="push-token">
+                    </div>
+                    
+                    <div class="change-actions">
+                        <button type="button" class="btn-primary" id="commit-btn" disabled>
+                            <i class="fas fa-upload"></i> Commit & Push All Changes
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Image Preview Modal -->
+    <div id="image-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeImageModal()">&times;</span>
+            <img id="modal-image" src="" alt="">
+            <div class="modal-info">
+                <h3 id="modal-title"></h3>
+                <p id="modal-path"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Error Log Modal -->
+    <div id="error-log-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e5e7eb;">
+                <h2 style="margin: 0;"><i class="fas fa-exclamation-triangle"></i> Error Log</h2>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-secondary" onclick="adminPortal.clearErrorLog()">
+                        <i class="fas fa-trash"></i> Clear Log
+                    </button>
+                    <span class="modal-close" onclick="closeModal('error-log-modal')">&times;</span>
+                </div>
+            </div>
+            <div id="error-log-content"></div>
+        </div>
+    </div>
+    
+    <script src="js/admin.js"></script>
+</body>
+</html>

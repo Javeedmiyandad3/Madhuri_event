@@ -1,0 +1,30 @@
+{
+  "name": "aa-admin-portal",
+  "version": "2.0.0",
+  "description": "AA Event Decor Admin Portal - Production Ready",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "keywords": [
+    "admin",
+    "portal",
+    "event",
+    "decor",
+    "image-management"
+  ],
+  "author": "AA Event Decor",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  },
+  "dependencies": {
+    "simple-git": "^3.20.0",
+    "sharp": "^0.33.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
