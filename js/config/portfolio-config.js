@@ -1,25 +1,25 @@
 /**
  * Portfolio Configuration for AA Event Decor and Rentals
- * Add your own images by updating the arrays in each category
+ * Final Merged Version - Optimized Configuration
+ * Updated: Services = single image, About = multiple images with slider, Portfolio = multiple images
  */
 
-/**
- * Portfolio Configuration for AA Event Decor and Rentals
- * Enhanced with Auto Image Detection and Multiple Image Support
- */
-
-// Portfolio data with auto image detection support
+// Portfolio data - Multiple images with slider support
 const PORTFOLIO_DATA = [
   {
     name: "Wedding and Bridal Shower",
-    folderPath: "images/portfolio/wedding/", // Folder to check for images
-    possibleImages: [ // Specific images to look for
+    folderPath: "images/portfolio/wedding/",
+    possibleImages: [
       "images/portfolio/wedding/wedding-setup-1.jpg",
       "images/portfolio/wedding/wedding-setup-2.jpg",
-      "images/portfolio/wedding/wedding-ceremony-1.jpg",
-      "images/portfolio/wedding/bridal-shower-1.jpg",
-      "images/portfolio/wedding/bridal-shower-2.jpg",
-      "images/portfolio/wedding/reception-decor-1.jpg"
+      "images/portfolio/wedding/wedding-setup-3.jpg",
+      "images/portfolio/wedding/wedding-setup-4.jpg",
+      "images/portfolio/wedding/wedding-setup-5.jpg",
+      "images/portfolio/wedding/wedding-setup-6.jpg",
+      "images/portfolio/wedding/wedding-setup-7.jpg",
+      "images/portfolio/wedding/wedding-setup-8.jpg",
+      "images/portfolio/wedding/wedding-setup-9.jpg",
+      "images/portfolio/wedding/wedding-setup-10.jpg"
     ],
     description: "Elegant wedding and bridal shower decorations with stunning backdrops",
     fallback: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=300&fit=crop&auto=format"
@@ -31,9 +31,13 @@ const PORTFOLIO_DATA = [
       "images/portfolio/birthday/birthday-theme-1.jpg",
       "images/portfolio/birthday/birthday-theme-2.jpg",
       "images/portfolio/birthday/birthday-theme-3.jpg",
-      "images/portfolio/birthday/kids-party-1.jpg",
-      "images/portfolio/birthday/adult-birthday-1.jpg",
-      "images/portfolio/birthday/balloon-setup-1.jpg"
+      "images/portfolio/birthday/birthday-theme-4.jpg",
+      "images/portfolio/birthday/birthday-theme-5.jpg",
+      "images/portfolio/birthday/birthday-theme-6.jpg",
+      "images/portfolio/birthday/birthday-theme-7.jpg",
+      "images/portfolio/birthday/birthday-theme-8.jpg",
+      "images/portfolio/birthday/birthday-theme-9.jpg",
+      "images/portfolio/birthday/birthday-theme-10.jpg"
     ],
     description: "Custom birthday party themes with balloon décor and styling",
     fallback: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop&auto=format"
@@ -44,10 +48,14 @@ const PORTFOLIO_DATA = [
     possibleImages: [
       "images/portfolio/babyshower/baby-shower-1.jpg",
       "images/portfolio/babyshower/baby-shower-2.jpg",
-      "images/portfolio/babyshower/gender-reveal-1.jpg",
-      "images/portfolio/babyshower/gender-reveal-2.jpg",
-      "images/portfolio/babyshower/pastel-decor-1.jpg",
-      "images/portfolio/babyshower/welcome-baby-1.jpg"
+      "images/portfolio/babyshower/baby-shower-3.jpg",
+      "images/portfolio/babyshower/baby-shower-4.jpg",
+      "images/portfolio/babyshower/baby-shower-5.jpg",
+      "images/portfolio/babyshower/baby-shower-6.jpg",
+      "images/portfolio/babyshower/baby-shower-7.jpg",
+      "images/portfolio/babyshower/baby-shower-8.jpg",
+      "images/portfolio/babyshower/baby-shower-9.jpg",
+      "images/portfolio/babyshower/baby-shower-10.jpg"
     ],
     description: "Beautiful baby shower and gender reveal decorations",
     fallback: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop&auto=format"
@@ -58,9 +66,14 @@ const PORTFOLIO_DATA = [
     possibleImages: [
       "images/portfolio/retirement/retirement-party-1.jpg",
       "images/portfolio/retirement/retirement-party-2.jpg",
-      "images/portfolio/retirement/milestone-celebration-1.jpg",
-      "images/portfolio/retirement/honor-ceremony-1.jpg",
-      "images/portfolio/retirement/farewell-setup-1.jpg"
+      "images/portfolio/retirement/retirement-party-3.jpg",
+      "images/portfolio/retirement/retirement-party-4.jpg",
+      "images/portfolio/retirement/retirement-party-5.jpg",
+      "images/portfolio/retirement/retirement-party-6.jpg",
+      "images/portfolio/retirement/retirement-party-7.jpg",
+      "images/portfolio/retirement/retirement-party-8.jpg",
+      "images/portfolio/retirement/retirement-party-9.jpg",
+      "images/portfolio/retirement/retirement-party-10.jpg"
     ],
     description: "Elegant retirement celebration setups and décor",
     fallback: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop&auto=format"
@@ -71,10 +84,14 @@ const PORTFOLIO_DATA = [
     possibleImages: [
       "images/portfolio/corporate/corporate-gala-1.jpg",
       "images/portfolio/corporate/corporate-gala-2.jpg",
-      "images/portfolio/corporate/conference-setup-1.jpg",
-      "images/portfolio/corporate/award-ceremony-1.jpg",
-      "images/portfolio/corporate/company-party-1.jpg",
-      "images/portfolio/corporate/product-launch-1.jpg"
+      "images/portfolio/corporate/corporate-gala-3.jpg",
+      "images/portfolio/corporate/corporate-gala-4.jpg",
+      "images/portfolio/corporate/corporate-gala-5.jpg",
+      "images/portfolio/corporate/corporate-gala-6.jpg",
+      "images/portfolio/corporate/corporate-gala-7.jpg",
+      "images/portfolio/corporate/corporate-gala-8.jpg",
+      "images/portfolio/corporate/corporate-gala-9.jpg",
+      "images/portfolio/corporate/corporate-gala-10.jpg"
     ],
     description: "Professional corporate event décor and styling",
     fallback: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop&auto=format"
@@ -85,17 +102,21 @@ const PORTFOLIO_DATA = [
     possibleImages: [
       "images/portfolio/rentals/rental-items-1.jpg",
       "images/portfolio/rentals/rental-items-2.jpg",
-      "images/portfolio/rentals/prop-collection-1.jpg",
-      "images/portfolio/rentals/furniture-rentals-1.jpg",
-      "images/portfolio/rentals/backdrop-stands-1.jpg",
-      "images/portfolio/rentals/table-settings-1.jpg"
+      "images/portfolio/rentals/rental-items-3.jpg",
+      "images/portfolio/rentals/rental-items-4.jpg",
+      "images/portfolio/rentals/rental-items-5.jpg",
+      "images/portfolio/rentals/rental-items-6.jpg",
+      "images/portfolio/rentals/rental-items-7.jpg",
+      "images/portfolio/rentals/rental-items-8.jpg",
+      "images/portfolio/rentals/rental-items-9.jpg",
+      "images/portfolio/rentals/rental-items-10.jpg"
     ],
     description: "Premium event rental items and prop collections",
     fallback: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop&auto=format"
   }
 ];
 
-// Services data for slider
+// Services data - Single image per service with fallback
 const SERVICES_DATA = [
   {
     title: "💍 Wedding and Bridal Showers",
@@ -106,11 +127,7 @@ const SERVICES_DATA = [
       "Balloon garlands & arches",
       "Ceremony & reception décor"
     ],
-    images: [
-      "images/services/wedding-services/ceremony-setup.jpg",
-      "images/services/wedding-services/reception-hall.jpg",
-      "images/services/wedding-services/bridal-decoration.jpg"
-    ],
+    image: "images/services/wedding-services/service-image.jpg",
     fallbackImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=400&fit=crop&auto=format"
   },
   {
@@ -122,11 +139,7 @@ const SERVICES_DATA = [
       "Dessert table styling",
       "Photo booth props & setups"
     ],
-    images: [
-      "images/services/birthday-services/balloon-arch.jpg",
-      "images/services/birthday-services/theme-party.jpg",
-      "images/services/birthday-services/kids-setup.jpg"
-    ],
+    image: "images/services/birthday-services/service-image.jpg",
     fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop&auto=format"
   },
   {
@@ -138,11 +151,7 @@ const SERVICES_DATA = [
       "Baby shower backdrops",
       "Dessert & gift table décor"
     ],
-    images: [
-      "images/services/babyshower-services/gender-reveal.jpg",
-      "images/services/babyshower-services/pastel-setup.jpg",
-      "images/services/babyshower-services/welcome-baby.jpg"
-    ],
+    image: "images/services/babyshower-services/service-image.jpg",
     fallbackImage: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&h=400&fit=crop&auto=format"
   },
   {
@@ -154,11 +163,7 @@ const SERVICES_DATA = [
       "Award ceremony décor",
       "Professional table styling"
     ],
-    images: [
-      "images/services/corporate-services/conference-setup.jpg",
-      "images/services/corporate-services/gala-night.jpg",
-      "images/services/corporate-services/product-launch.jpg"
-    ],
+    image: "images/services/corporate-services/service-image.jpg",
     fallbackImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop&auto=format"
   },
   {
@@ -170,11 +175,7 @@ const SERVICES_DATA = [
       "Custom memory displays",
       "Honor ceremony setups"
     ],
-    images: [
-      "images/services/retirement-services/retirement-party.jpg",
-      "images/services/retirement-services/milestone-celebration.jpg",
-      "images/services/retirement-services/honor-ceremony.jpg"
-    ],
+    image: "images/services/retirement-services/service-image.jpg",
     fallbackImage: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&h=400&fit=crop&auto=format"
   },
   {
@@ -186,14 +187,30 @@ const SERVICES_DATA = [
       "Photo booth props",
       "Table linens & centerpieces"
     ],
-    images: [
-      "images/services/rental-services/backdrop-stands.jpg",
-      "images/services/rental-services/furniture-rentals.jpg",
-      "images/services/rental-services/prop-collection.jpg"
-    ],
+    image: "images/services/rental-services/service-image.jpg",
     fallbackImage: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&h=400&fit=crop&auto=format"
   }
 ];
+
+// About data - Multiple images with slider (like Portfolio)
+const ABOUT_DATA = {
+  name: "About Us",
+  folderPath: "images/about/",
+  possibleImages: [
+    "images/about/about-image-1.jpg",
+    "images/about/about-image-2.jpg",
+    "images/about/about-image-3.jpg",
+    "images/about/about-image-4.jpg",
+    "images/about/about-image-5.jpg",
+    "images/about/about-image-6.jpg",
+    "images/about/about-image-7.jpg",
+    "images/about/about-image-8.jpg",
+    "images/about/about-image-9.jpg",
+    "images/about/about-image-10.jpg"
+  ],
+  description: "Our team and workspace",
+  fallback: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop&auto=format"
+};
 
 // Contact information configuration
 const CONTACT_CONFIG = {
@@ -201,7 +218,7 @@ const CONTACT_CONFIG = {
   email: 'aaeventdecor.llc@gmail.com',
   social: {
     facebook: 'https://www.facebook.com/share/1AAjeoxDdh/?mibextid=wwXIfr',
-    instagram: 'https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q '
+    instagram: 'https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q'
   },
   hours: {
     weekdays: '9AM-7PM',
@@ -224,15 +241,20 @@ const SITE_CONFIG = {
   enableAutoSlider: true
 };
 
-// Export for use in other files
+// Export for use in other files (Node.js/module environments)
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     PORTFOLIO_DATA,
     SERVICES_DATA,
+    ABOUT_DATA,
     CONTACT_CONFIG,
     SITE_CONFIG
   };
 }
-// At the end of portfolio-config.js, add:
+
+// Make available globally (browser environment)
 window.PORTFOLIO_DATA = PORTFOLIO_DATA;
 window.SERVICES_DATA = SERVICES_DATA;
+window.ABOUT_DATA = ABOUT_DATA;
+window.CONTACT_CONFIG = CONTACT_CONFIG;
+window.SITE_CONFIG = SITE_CONFIG;

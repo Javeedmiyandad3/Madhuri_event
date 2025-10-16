@@ -463,3 +463,328 @@
     justify-content: center;
   }
 }
+/* About Gallery Container */
+.about-gallery {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* About Slider */
+.about-slider {
+    position: relative;
+    width: 100%;
+    border-radius: var(--border-radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-elevated);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+/* About Slides Container */
+.about-slides {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* Individual About Slide Images */
+.about-slide-image {
+    min-width: 100%;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    flex-shrink: 0;
+    transition: opacity 0.3s ease;
+}
+
+.about-slide-image.active {
+    opacity: 1;
+}
+
+/* Single About Image (when only one image) */
+.about-image-single {
+    width: 100%;
+    border-radius: var(--border-radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-elevated);
+    border: 1px solid var(--color-border);
+}
+
+.about-image-single .about-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+/* About Navigation Buttons */
+.about-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-3);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.about-slider:hover .about-nav {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.about-nav-btn {
+    background: rgba(253, 252, 250, 0.95);
+    border: 1px solid var(--color-border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-button-bg);
+    font-size: var(--font-size-lg);
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-soft);
+    pointer-events: auto;
+}
+
+.about-nav-btn:hover {
+    background: var(--color-button-bg);
+    color: var(--color-button-text);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-card);
+    border-color: var(--color-button-bg);
+}
+
+.about-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.about-nav-btn i {
+    font-size: 14px;
+}
+
+/* About Dots Navigation */
+.about-dots {
+    position: absolute;
+    bottom: var(--spacing-4);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-2);
+    background: rgba(46, 46, 46, 0.6);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--border-radius-2xl);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.about-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.about-dot.active {
+    background: var(--color-champagne);
+    transform: scale(1.4);
+    box-shadow: 0 0 6px rgba(232, 220, 196, 0.8);
+}
+
+.about-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+}
+
+/* Loading State */
+.about-image-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    background: var(--color-surface);
+    border-radius: var(--border-radius-2xl);
+    border: 1px solid var(--color-border);
+    color: var(--text-secondary);
+}
+
+.about-image-loading i {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--spacing-4);
+    color: var(--color-button-bg);
+}
+
+.about-image-loading p {
+    font-size: var(--font-size-base);
+    margin: 0;
+}
+
+/* Image Overlay (5+ Years badge) - Optional */
+.about-slider .image-overlay {
+    position: absolute;
+    bottom: var(--spacing-6);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(203, 188, 163, 0.95);
+    color: var(--color-warm-white);
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--border-radius-2xl);
+    font-weight: var(--font-weight-medium);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-card);
+    font-family: var(--font-body);
+    letter-spacing: 0.02em;
+    font-size: var(--font-size-sm);
+    z-index: 11;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-gallery {
+        max-width: 100%;
+    }
+    
+    .about-slide-image,
+    .about-image-single .about-image,
+    .about-image-loading {
+        height: 300px;
+    }
+    
+    .about-nav-btn {
+        width: 36px;
+        height: 36px;
+        font-size: var(--font-size-base);
+    }
+    
+    .about-nav-btn i {
+        font-size: 12px;
+    }
+    
+    .about-dots {
+        bottom: var(--spacing-3);
+        padding: var(--spacing-1) var(--spacing-2);
+    }
+    
+    .about-dot {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .about-slider .image-overlay {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-2) var(--spacing-4);
+        bottom: var(--spacing-4);
+    }
+}
+
+@media (max-width: 480px) {
+    .about-slide-image,
+    .about-image-single .about-image,
+    .about-image-loading {
+        height: 250px;
+    }
+    
+    .about-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: var(--font-size-sm);
+    }
+    
+    .about-nav-btn i {
+        font-size: 10px;
+    }
+    
+    .about-slider .image-overlay {
+        font-size: 11px;
+        padding: var(--spacing-1) var(--spacing-3);
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .about-nav {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .about-nav-btn {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .about-slider:hover {
+        transform: none;
+    }
+}
+
+/* Performance Optimizations */
+.about-slides {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.about-slide-image {
+    will-change: opacity;
+    backface-visibility: hidden;
+}
+
+/* Accessibility */
+.about-nav-btn:focus {
+    outline: 2px solid var(--color-button-bg);
+    outline-offset: 2px;
+}
+
+.about-dot:focus {
+    outline: 2px solid var(--color-button-bg);
+    outline-offset: 1px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .about-nav-btn {
+        background: var(--color-warm-white);
+        border: 2px solid var(--text-primary);
+        color: var(--text-primary);
+    }
+    
+    .about-dot {
+        border: 1px solid var(--color-warm-white);
+    }
+    
+    .about-dot.active {
+        background: var(--color-warm-white);
+        border-color: var(--text-primary);
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .about-slides {
+        transition: none;
+    }
+    
+    .about-slide-image {
+        transition: none;
+    }
+    
+    .about-slider:hover {
+        transform: none;
+    }
+}

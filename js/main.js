@@ -1,6 +1,7 @@
 /**
  * Main Application Controller for AA Event Decor and Rentals
  * Complete version with multiple image support and auto-detection
+ * Includes About slider functionality
  */
 
 // Main Application Class
@@ -8,6 +9,7 @@ class MainApp {
   constructor() {
     this.isLoaded = false;
     this.currentServiceSlide = 0;
+    this.currentAboutSlide = 0;
     this.serviceSlideInterval = null;
     this.portfolioCurrentSlides = [];
     this.portfolioImageCache = new Map();
@@ -18,23 +20,21 @@ class MainApp {
     try {
       this.showLoading();
       
-      // Wait for DOM to be ready
       if (document.readyState === 'loading') {
         await new Promise(resolve => {
           document.addEventListener('DOMContentLoaded', resolve);
         });
       }
       
-      // Initialize all components
       this.initializeLogo();
       await this.createPortfolioWithImageDetection();
       this.createServicesSlider();
+      await this.createAboutSlider();
       this.enhanceFloatingElements();
       this.setupModal();
       this.setupNavigation();
       this.startAutoSliders();
       
-      // Hide loading after initialization
       setTimeout(() => {
         this.hideLoading();
         this.isLoaded = true;
@@ -73,14 +73,12 @@ class MainApp {
     }
   }
 
-  // Auto-detect images in portfolio folders
   async createPortfolioWithImageDetection() {
     const portfolioGrid = document.getElementById('portfolio-grid');
     if (!portfolioGrid) return;
 
     portfolioGrid.innerHTML = '';
     
-    // Get portfolio data from config
     const portfolioData = typeof PORTFOLIO_DATA !== 'undefined' ? PORTFOLIO_DATA : [];
     
     for (let i = 0; i < portfolioData.length; i++) {
@@ -89,16 +87,13 @@ class MainApp {
       await this.createPortfolioCard(item, detectedImages, i, portfolioGrid);
     }
     
-    // Initialize portfolio slide tracking
     this.portfolioCurrentSlides = new Array(portfolioData.length).fill(0);
   }
 
-  // Detect available images for a portfolio item
   async detectPortfolioImages(item) {
     const images = [];
     const folderPath = item.folderPath || `images/portfolio/${item.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')}/`;
     
-    // Try to detect images in the folder
     const possibleImages = item.possibleImages || [
       `${folderPath}image-1.jpg`,
       `${folderPath}image-2.jpg`,
@@ -113,14 +108,12 @@ class MainApp {
       `${folderPath}event-2.jpg`
     ];
 
-    // Check each possible image
     for (const imagePath of possibleImages) {
       if (await this.imageExists(imagePath)) {
         images.push(imagePath);
       }
     }
 
-    // If no images found, use predefined images from config
     if (images.length === 0 && item.images) {
       for (const imagePath of item.images) {
         if (await this.imageExists(imagePath)) {
@@ -129,7 +122,6 @@ class MainApp {
       }
     }
 
-    // If still no images, use fallback
     if (images.length === 0) {
       images.push(item.fallback || 'https://via.placeholder.com/400x300?text=No+Image');
     }
@@ -137,9 +129,7 @@ class MainApp {
     return images;
   }
 
-  // Check if image exists
   async imageExists(url) {
-    // Return from cache if already checked
     if (this.portfolioImageCache.has(url)) {
       return this.portfolioImageCache.get(url);
     }
@@ -158,7 +148,6 @@ class MainApp {
     });
   }
 
-  // Create individual portfolio card
   async createPortfolioCard(item, images, index, container) {
     const portfolioCard = document.createElement('article');
     portfolioCard.className = 'portfolio-card';
@@ -180,7 +169,6 @@ class MainApp {
     container.appendChild(portfolioCard);
   }
 
-  // Create image slider for multiple images
   createImageSlider(images, item, index) {
     return `
       <div class="portfolio-slider">
@@ -213,7 +201,6 @@ class MainApp {
     `;
   }
 
-  // Create single image display
   createSingleImage(imageSrc, item) {
     return `
       <img src="${imageSrc}" 
@@ -225,7 +212,6 @@ class MainApp {
     `;
   }
 
-  // Portfolio slider navigation functions
   changePortfolioSlide(portfolioIndex, direction) {
     if (!this.portfolioCurrentSlides) return;
     
@@ -263,7 +249,6 @@ class MainApp {
       slidesContainer.style.transform = `translateX(-${activeSlide * 100}%)`;
     }
     
-    // Update dots
     dots.forEach((dot, index) => {
       dot.classList.toggle('active', index === activeSlide);
     });
@@ -275,27 +260,7 @@ class MainApp {
     
     if (!servicesTrack || !serviceDots) return;
     
-    // Default services data if SERVICES_DATA is not defined
-    const servicesData = typeof SERVICES_DATA !== 'undefined' ? SERVICES_DATA : [
-      {
-        title: "Wedding and Bridal Showers",
-        description: "Create your dream wedding with stunning backdrops, elegant table décor, and beautiful balloon garlands",
-        features: ["Custom backdrops & photo walls", "Bridal table styling & centerpieces", "Balloon garlands & arches", "Ceremony & reception décor"],
-        fallbackImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=400&fit=crop&auto=format"
-      },
-      {
-        title: "Birthday Theme Setups",
-        description: "Transform birthday celebrations with custom themed décor and balloon arrangements",
-        features: ["Custom themed backdrops", "Balloon décor & installations", "Dessert table styling", "Photo booth props & setups"],
-        fallbackImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop&auto=format"
-      },
-      {
-        title: "Corporate Events",
-        description: "Professional event décor for corporate functions, meetings, and company celebrations",
-        features: ["Conference & meeting setups", "Corporate branding displays", "Award ceremony décor", "Professional table styling"],
-        fallbackImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop&auto=format"
-      }
-    ];
+    const servicesData = typeof SERVICES_DATA !== 'undefined' ? SERVICES_DATA : [];
 
     servicesTrack.innerHTML = '';
     serviceDots.innerHTML = '';
@@ -304,7 +269,7 @@ class MainApp {
       const serviceSlide = document.createElement('div');
       serviceSlide.className = 'service-slide';
       
-      const currentImage = service.fallbackImage || service.images?.[0] || 'https://via.placeholder.com/600x400';
+      const serviceImage = service.image || service.fallbackImage;
       
       serviceSlide.innerHTML = `
         <div class="service-content">
@@ -315,21 +280,131 @@ class MainApp {
           </ul>
         </div>
         <div class="service-image-container">
-          <img src="${currentImage}" 
+          <img src="${serviceImage}" 
                alt="${service.title}" 
                class="service-image"
                loading="lazy"
-               onerror="this.src='https://via.placeholder.com/600x400'">
+               onerror="this.src='${service.fallbackImage}'">
         </div>
       `;
       servicesTrack.appendChild(serviceSlide);
 
-      // Create dot
       const dot = document.createElement('div');
       dot.className = `dot ${index === 0 ? 'active' : ''}`;
       dot.onclick = () => this.goToServiceSlide(index);
       dot.setAttribute('aria-label', `Go to ${service.title}`);
       serviceDots.appendChild(dot);
+    });
+  }
+
+  async createAboutSlider() {
+    const aboutContainer = document.querySelector('.about-gallery');
+    if (!aboutContainer) {
+      console.log('About gallery container not found, skipping slider');
+      return;
+    }
+
+    const aboutData = typeof ABOUT_DATA !== 'undefined' ? ABOUT_DATA : null;
+    if (!aboutData) {
+      console.log('ABOUT_DATA not defined');
+      return;
+    }
+
+    const detectedImages = await this.detectAboutImages(aboutData);
+    
+    if (detectedImages.length === 0) {
+      aboutContainer.innerHTML = `
+        <div class="about-image-single">
+          <img src="${aboutData.fallback}" 
+               alt="${aboutData.name}" 
+               class="about-image"
+               loading="lazy">
+        </div>
+      `;
+      return;
+    }
+
+    aboutContainer.innerHTML = `
+      <div class="about-slider">
+        <div class="about-slides" id="about-slides">
+          ${detectedImages.map((img, imgIndex) => `
+            <img src="${img}" 
+                 alt="${aboutData.name} - Image ${imgIndex + 1}" 
+                 class="about-slide-image ${imgIndex === 0 ? 'active' : ''}" 
+                 loading="lazy"
+                 onerror="this.src='${aboutData.fallback}'">
+          `).join('')}
+        </div>
+        ${detectedImages.length > 1 ? `
+          <div class="about-nav">
+            <button class="about-nav-btn prev" onclick="app.changeAboutSlide(-1)" aria-label="Previous image">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="about-nav-btn next" onclick="app.changeAboutSlide(1)" aria-label="Next image">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="about-dots">
+            ${detectedImages.map((_, dotIndex) => `
+              <div class="about-dot ${dotIndex === 0 ? 'active' : ''}" 
+                   onclick="app.goToAboutSlide(${dotIndex})"
+                   aria-label="Go to image ${dotIndex + 1}"></div>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    this.currentAboutSlide = 0;
+  }
+
+  async detectAboutImages(aboutData) {
+    const images = [];
+    
+    for (const imagePath of aboutData.possibleImages) {
+      if (await this.imageExists(imagePath)) {
+        images.push(imagePath);
+      }
+    }
+
+    return images;
+  }
+
+  changeAboutSlide(direction) {
+    const slidesContainer = document.getElementById('about-slides');
+    if (!slidesContainer) return;
+    
+    const totalSlides = slidesContainer.children.length;
+    if (totalSlides <= 1) return;
+    
+    this.currentAboutSlide = (this.currentAboutSlide || 0) + direction;
+    
+    if (this.currentAboutSlide >= totalSlides) this.currentAboutSlide = 0;
+    if (this.currentAboutSlide < 0) this.currentAboutSlide = totalSlides - 1;
+    
+    this.updateAboutSlider(this.currentAboutSlide);
+  }
+
+  goToAboutSlide(slideIndex) {
+    this.currentAboutSlide = slideIndex;
+    this.updateAboutSlider(slideIndex);
+  }
+
+  updateAboutSlider(activeSlide) {
+    const slidesContainer = document.getElementById('about-slides');
+    const dots = document.querySelectorAll('.about-dot');
+    
+    if (slidesContainer) {
+      slidesContainer.style.transform = `translateX(-${activeSlide * 100}%)`;
+    }
+    
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === activeSlide);
+    });
+
+    const images = slidesContainer?.querySelectorAll('.about-slide-image');
+    images?.forEach((img, index) => {
+      img.classList.toggle('active', index === activeSlide);
     });
   }
 
@@ -345,7 +420,6 @@ class MainApp {
     }
     this.updateServiceSlider();
     
-    // Reset auto-slide timer
     this.stopAutoSliders();
     this.startAutoSliders();
   }
@@ -408,7 +482,6 @@ class MainApp {
       { emoji: '🎀', color: '#e84393' }
     ];
 
-    // Create dynamic floating elements periodically
     setInterval(() => {
       if (container.children.length > 30) return;
       
@@ -499,7 +572,6 @@ class MainApp {
       });
     }
 
-    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -515,7 +587,6 @@ class MainApp {
             behavior: 'smooth'
           });
           
-          // Close mobile menu if open
           if (navMenu && navMenu.classList.contains('active')) {
             navMenu.classList.remove('active');
             const icon = mobileMenuBtn?.querySelector('i');
@@ -527,7 +598,6 @@ class MainApp {
       });
     });
 
-    // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.querySelector('.header');
       if (window.scrollY > 100) {
@@ -570,7 +640,6 @@ class MainApp {
   }
 }
 
-// Add animation styles dynamically
 const style = document.createElement('style');
 style.textContent = `
   @keyframes riseAnimation {
@@ -619,10 +688,8 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize the application
 let app;
 
-// Wait for DOM to be ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     app = new MainApp();
@@ -633,14 +700,12 @@ if (document.readyState === 'loading') {
   window.app = app;
 }
 
-// Handle visibility change
 document.addEventListener('visibilitychange', () => {
   if (app) {
     app.handleVisibilityChange();
   }
 });
 
-// Make sure PORTFOLIO_DATA and SERVICES_DATA are available globally if defined
 if (typeof PORTFOLIO_DATA !== 'undefined') {
   window.PORTFOLIO_DATA = PORTFOLIO_DATA;
 }
@@ -651,4 +716,8 @@ if (typeof SERVICES_DATA !== 'undefined') {
 
 if (typeof SITE_CONFIG !== 'undefined') {
   window.SITE_CONFIG = SITE_CONFIG;
+}
+
+if (typeof ABOUT_DATA !== 'undefined') {
+  window.ABOUT_DATA = ABOUT_DATA;
 }
