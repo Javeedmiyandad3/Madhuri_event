@@ -301,7 +301,7 @@
 }
 
 /* ===================================
-   DARK MODE - Enhanced Text Visibility
+   DARK MODE - COMPLETE FIX
    =================================== */
 @media (prefers-color-scheme: dark) {
   .hero {
@@ -326,21 +326,102 @@
     opacity: 0.06;
   }
   
-  /* HERO TITLE - Enhanced visibility in dark mode */
-  .hero-title {
-    color: #E8E6E3 !important;
+  /* ===== HERO TITLE - WHITE IN DARK MODE ===== */
+  .hero-title,
+  .hero .hero-title,
+  .hero-content .hero-title,
+  section.hero .hero-title,
+  div.hero .hero-title,
+  .hero-title.scrolled,
+  .hero-title.animated,
+  .hero-title.aos-animate,
+  .hero-title[data-aos],
+  .hero-title[style],
+  .hero-title[style*="color"],
+  body .hero-title,
+  html .hero-title,
+  body[data-scroll] .hero-title,
+  body.scrolled .hero-title,
+  .hero.scrolled .hero-title,
+  .hero-content.scrolled .hero-title,
+  .hero-title.fade-in,
+  .hero-title.fade-out,
+  .animate-fade-in .hero-title,
+  .animate-fade-in-delay .hero-title,
+  body.scrolling .hero-title,
+  html.scrolling .hero-title,
+  .hero-title.visible,
+  .hero-title.hidden,
+  .hero-title.in-view,
+  .hero-title.out-view {
+    color: #FFFFFF !important;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8),
                  0 4px 16px rgba(0, 0, 0, 0.6),
-                 0 0 40px rgba(199, 184, 161, 0.3) !important;
+                 0 0 40px rgba(255, 255, 255, 0.2) !important;
     font-weight: 700 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #FFFFFF !important;
   }
   
-  /* HERO SUBTITLE - Enhanced visibility in dark mode */
-  .hero-subtitle {
-    color: #B8B5B2 !important;
+  /* ===== HERO SUBTITLE - LIGHT GRAY IN DARK MODE ===== */
+  .hero-subtitle,
+  .hero .hero-subtitle,
+  .hero-content .hero-subtitle,
+  section.hero .hero-subtitle,
+  div.hero .hero-subtitle,
+  .hero-subtitle.scrolled,
+  .hero-subtitle.animated,
+  .hero-subtitle.aos-animate,
+  .hero-subtitle[data-aos],
+  .hero-subtitle[style],
+  .hero-subtitle[style*="color"],
+  body .hero-subtitle,
+  html .hero-subtitle,
+  body[data-scroll] .hero-subtitle,
+  body.scrolled .hero-subtitle,
+  .hero.scrolled .hero-subtitle,
+  .hero-content.scrolled .hero-subtitle,
+  .hero-subtitle.fade-in,
+  .hero-subtitle.fade-out,
+  .animate-fade-in .hero-subtitle,
+  .animate-fade-in-delay .hero-subtitle,
+  body.scrolling .hero-subtitle,
+  html.scrolling .hero-subtitle,
+  .hero-subtitle.visible,
+  .hero-subtitle.hidden,
+  .hero-subtitle.in-view,
+  .hero-subtitle.out-view {
+    color: #E8E6E3 !important;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6),
-                 0 0 20px rgba(199, 184, 161, 0.2) !important;
+                 0 0 20px rgba(255, 255, 255, 0.1) !important;
     font-weight: 500 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #E8E6E3 !important;
+  }
+  
+  /* Prevent ANY transitions or transforms from changing colors */
+  .hero-title,
+  .hero-subtitle {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  /* Allow only safe animations that don't affect color */
+  .hero-title.animate-fade-in,
+  .hero-subtitle.animate-fade-in-delay {
+    animation: fadeInDarkSafe 1s ease-out forwards !important;
+  }
+  
+  /* Safe fade-in that preserves color */
+  @keyframes fadeInDarkSafe {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   /* Floating Elements - More visible in dark mode */

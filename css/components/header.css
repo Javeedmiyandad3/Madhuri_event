@@ -393,8 +393,60 @@
   }
 }
 
-/* Dark mode adjustments for mobile menu */
+/* ===================================
+   DARK MODE - WITH BUSINESS NAME/TAGLINE FIX
+   =================================== */
 @media (prefers-color-scheme: dark) {
+  /* FIX HEADER BACKGROUND - DARK IN DARK MODE */
+  .header {
+    background: rgba(26, 26, 26, 0.95) !important;
+    border-bottom: 1px solid #3a3a3a !important;
+  }
+  
+  .header.scrolled {
+    background: rgba(26, 26, 26, 0.98) !important;
+    border-bottom: 1px solid #8B7355 !important;
+  }
+  
+  /* FIX NAVIGATION LINKS - LIGHT IN DARK MODE */
+  .nav-menu a {
+    color: #E8E6E3 !important;
+  }
+  
+  .nav-menu a:hover,
+  .nav-menu a:focus,
+  .nav-menu a.active {
+    color: #D4B896 !important;
+  }
+  
+  /* HEADER LOGO TEXT - WHITE IN DARK MODE */
+  .business-name,
+  .business-name[style],
+  .logo-section .business-name,
+  .logo-text .business-name,
+  body .business-name,
+  html .business-name,
+  .header .business-name,
+  .header.scrolled .business-name,
+  .scrolled .business-name {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+  }
+  
+  .business-tagline,
+  .business-tagline[style],
+  .logo-section .business-tagline,
+  .logo-text .business-tagline,
+  body .business-tagline,
+  html .business-tagline,
+  .header .business-tagline,
+  .header.scrolled .business-tagline,
+  .scrolled .business-tagline {
+    color: #B8B5B2 !important;
+    -webkit-text-fill-color: #B8B5B2 !important;
+  }
+  
+  /* Mobile menu dark mode styles */
   @media (max-width: 768px) {
     .mobile-menu-btn {
       background: #C7B8A1 !important;

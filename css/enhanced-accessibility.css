@@ -103,11 +103,11 @@
   }
   
   .business-name {
-    color: var(--text-primary);
+    color: #D4B996 !important;
   }
   
   .business-tagline {
-    color: var(--text-secondary);
+    color: #C7B8A1 !important;
   }
   
   .nav-menu a {

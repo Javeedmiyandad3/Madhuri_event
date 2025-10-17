@@ -148,14 +148,21 @@
   font-size: 12px;
 }
 
-/* Dot indicators for current slide */
-.portfolio-dots {
+/* ===================================
+   DOT INDICATORS - DESKTOP (MERGED FIX)
+   =================================== */
+.portfolio-dots,
+.slider-dots,
+.carousel-indicators,
+.swiper-pagination {
   position: absolute;
   bottom: var(--spacing-4);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: var(--spacing-2);
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   background: rgba(46, 46, 46, 0.6);
   padding: var(--spacing-2) var(--spacing-3);
   border-radius: var(--border-radius-2xl);
@@ -164,25 +171,38 @@
 }
 
 /* Individual dot indicator */
-.portfolio-dot {
-  width: 6px;
-  height: 6px;
+.portfolio-dot,
+.slider-dot,
+.carousel-indicator,
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(199, 184, 161, 0.4);
+  border: 2px solid rgba(199, 184, 161, 0.6);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.3s ease;
   flex-shrink: 0;
+  padding: 0;
+  margin: 0;
 }
 
 /* Active dot is larger and highlighted */
-.portfolio-dot.active {
-  background: var(--color-champagne);
-  transform: scale(1.4);
+.portfolio-dot.active,
+.slider-dot.active,
+.carousel-indicator.active,
+.swiper-pagination-bullet-active {
+  background: #C7B8A1;
+  border-color: #C7B8A1;
+  transform: scale(1.2);
   box-shadow: 0 0 6px rgba(232, 220, 196, 0.8);
 }
 
 /* Dot hover effect */
-.portfolio-dot:hover {
+.portfolio-dot:hover,
+.slider-dot:hover,
+.carousel-indicator:hover,
+.swiper-pagination-bullet:hover {
   background: rgba(255, 255, 255, 0.8);
   transform: scale(1.2);
 }
@@ -343,7 +363,9 @@
   }
 }
 
-/* Tablet and mobile styles */
+/* ===================================
+   TABLET RESPONSIVE STYLES (768px)
+   =================================== */
 @media (max-width: 768px) {
   /* Single column on tablets */
   .portfolio-grid {
@@ -377,22 +399,30 @@
     font-size: 10px;
   }
   
-  /* URGENT FIX: MUCH smaller dots for mobile */
-  .portfolio-dots {
-    bottom: 8px !important;
-    padding: 2px 6px !important;
-    gap: 4px !important;
+  /* TABLET - Slightly smaller dots */
+  .portfolio-dots,
+  .slider-dots,
+  .carousel-indicators,
+  .swiper-pagination {
+    gap: 10px;
+    padding: 16px 0;
+    bottom: 8px;
   }
   
-  .portfolio-dot {
-    width: 3px !important;
-    height: 3px !important;
+  .portfolio-dot,
+  .slider-dot,
+  .carousel-indicator,
+  .swiper-pagination-bullet {
+    width: 10px !important;
+    height: 10px !important;
+    border-width: 2px !important;
   }
   
-  .portfolio-dot.active {
-    width: 4px !important;
-    height: 4px !important;
-    transform: scale(1.1) !important;
+  .portfolio-dot.active,
+  .slider-dot.active,
+  .carousel-indicator.active,
+  .swiper-pagination-bullet-active {
+    transform: scale(1.15) !important;
   }
   
   /* Smaller image counter */
@@ -417,7 +447,9 @@
   }
 }
 
-/* Small mobile phones */
+/* ===================================
+   MOBILE RESPONSIVE STYLES (480px)
+   =================================== */
 @media (max-width: 480px) {
   .portfolio-grid {
     margin-top: var(--spacing-6);
@@ -443,21 +475,33 @@
     font-size: var(--font-size-xs);
   }
   
-  /* URGENT FIX: Even SMALLER dots for small phones */
-  .portfolio-dots {
+  /* MOBILE - Smaller dots for better fit */
+  .portfolio-dots,
+  .slider-dots,
+  .carousel-indicators,
+  .swiper-pagination {
+    gap: 8px !important;
+    padding: 12px 0 !important;
     bottom: 6px !important;
-    padding: 2px 4px !important;
-    gap: 3px !important;
   }
   
-  .portfolio-dot {
-    width: 2px !important;
-    height: 2px !important;
+  .portfolio-dot,
+  .slider-dot,
+  .carousel-indicator,
+  .swiper-pagination-bullet {
+    width: 8px !important;
+    height: 8px !important;
+    border-width: 1.5px !important;
+    min-width: 8px !important;
+    min-height: 8px !important;
   }
   
-  .portfolio-dot.active {
-    width: 3px !important;
-    height: 3px !important;
+  .portfolio-dot.active,
+  .slider-dot.active,
+  .carousel-indicator.active,
+  .swiper-pagination-bullet-active {
+    width: 10px !important;
+    height: 10px !important;
     transform: scale(1) !important;
   }
   
@@ -467,6 +511,36 @@
   
   .image-count {
     font-size: 9px;
+  }
+}
+
+/* ===================================
+   EXTRA SMALL MOBILE (360px)
+   =================================== */
+@media (max-width: 360px) {
+  .portfolio-dots,
+  .slider-dots,
+  .carousel-indicators,
+  .swiper-pagination {
+    gap: 6px !important;
+    padding: 10px 0 !important;
+  }
+  
+  .portfolio-dot,
+  .slider-dot,
+  .carousel-indicator,
+  .swiper-pagination-bullet {
+    width: 7px !important;
+    height: 7px !important;
+    border-width: 1px !important;
+  }
+  
+  .portfolio-dot.active,
+  .slider-dot.active,
+  .carousel-indicator.active,
+  .swiper-pagination-bullet-active {
+    width: 8px !important;
+    height: 8px !important;
   }
 }
 
@@ -517,9 +591,33 @@
   outline-offset: 2px;
 }
 
-.portfolio-dot:focus {
+.portfolio-dot:focus,
+.slider-dot:focus,
+.carousel-indicator:focus,
+.swiper-pagination-bullet:focus {
   outline: 2px solid var(--color-button-bg);
   outline-offset: 1px;
+}
+
+/* ===================================
+   DARK MODE SUPPORT
+   =================================== */
+@media (prefers-color-scheme: dark) {
+  .portfolio-dot,
+  .slider-dot,
+  .carousel-indicator,
+  .swiper-pagination-bullet {
+    background-color: rgba(199, 184, 161, 0.3);
+    border-color: rgba(199, 184, 161, 0.5);
+  }
+  
+  .portfolio-dot.active,
+  .slider-dot.active,
+  .carousel-indicator.active,
+  .swiper-pagination-bullet-active {
+    background-color: #D4B996;
+    border-color: #D4B996;
+  }
 }
 
 /* High contrast mode for accessibility */
@@ -530,11 +628,17 @@
     color: var(--text-primary);
   }
   
-  .portfolio-dot {
+  .portfolio-dot,
+  .slider-dot,
+  .carousel-indicator,
+  .swiper-pagination-bullet {
     border: 1px solid var(--color-warm-white);
   }
   
-  .portfolio-dot.active {
+  .portfolio-dot.active,
+  .slider-dot.active,
+  .carousel-indicator.active,
+  .swiper-pagination-bullet-active {
     background: var(--color-warm-white);
     border-color: var(--text-primary);
   }
@@ -569,6 +673,9 @@
   /* Hide interactive elements when printing */
   .portfolio-nav,
   .portfolio-dots,
+  .slider-dots,
+  .carousel-indicators,
+  .swiper-pagination,
   .image-count {
     display: none;
   }

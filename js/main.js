@@ -1,7 +1,6 @@
 /**
  * Main Application Controller for AA Event Decor and Rentals
- * Complete version with multiple image support and auto-detection
- * Includes About slider functionality
+ * Complete version with multiple image support, auto-detection, and dark mode support
  */
 
 // Main Application Class
@@ -13,6 +12,8 @@ class MainApp {
     this.serviceSlideInterval = null;
     this.portfolioCurrentSlides = [];
     this.portfolioImageCache = new Map();
+    this.darkModeObserver = null;
+    this.darkModeIntervals = [];
     this.init();
   }
 
@@ -34,6 +35,7 @@ class MainApp {
       this.setupModal();
       this.setupNavigation();
       this.startAutoSliders();
+      this.initializeDarkMode();
       
       setTimeout(() => {
         this.hideLoading();
@@ -47,6 +49,95 @@ class MainApp {
     }
   }
 
+  // ===================================
+  // DARK MODE FUNCTIONALITY
+  // ===================================
+  initializeDarkMode() {
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (!isDarkMode) return;
+    
+    this.TITLE_COLOR = '#D4B996';
+    this.SUBTITLE_COLOR = '#C7B8A1';
+    
+    // Run immediately
+    this.enforceDarkModeColors();
+    
+    // Run on scroll (throttled)
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => this.enforceDarkModeColors(), 100);
+    }, { passive: true });
+    
+    // Run on resize (throttled)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => this.enforceDarkModeColors(), 100);
+    }, { passive: true });
+    
+    // Watch for DOM mutations
+    this.setupDarkModeMutationObserver();
+    
+    // Periodic check every 2 seconds
+    const intervalId = setInterval(() => this.enforceDarkModeColors(), 2000);
+    this.darkModeIntervals.push(intervalId);
+    
+    // Listen for color scheme changes
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeQuery.addEventListener('change', (e) => {
+      if (e.matches) {
+        this.enforceDarkModeColors();
+      }
+    });
+  }
+
+enforceDarkModeColors() {
+  // Fix for HEADER - Business name and tagline
+  const businessName = document.querySelector('.business-name');
+  const businessTagline = document.querySelector('.business-tagline');
+  
+  if (businessName) {
+    businessName.setAttribute('style', 'color: #D4B996 !important; -webkit-text-fill-color: #D4B996 !important;');
+  }
+  
+  if (businessTagline) {
+    businessTagline.setAttribute('style', 'color: #C7B8A1 !important; -webkit-text-fill-color: #C7B8A1 !important;');
+  }
+  
+  // Also fix hero title and subtitle if needed
+  const heroTitle = document.querySelector('.hero-title');
+  const heroSubtitle = document.querySelector('.hero-subtitle');
+  
+  if (heroTitle) {
+    heroTitle.setAttribute('style', 'color: #D4B996 !important; -webkit-text-fill-color: #D4B996 !important;');
+  }
+  
+  if (heroSubtitle) {
+    heroSubtitle.setAttribute('style', 'color: #C7B8A1 !important; -webkit-text-fill-color: #C7B8A1 !important;');
+  }
+}
+  setupDarkModeMutationObserver() {
+    const heroContent = document.querySelector('.hero-content');
+    
+    if (heroContent && window.MutationObserver) {
+      this.darkModeObserver = new MutationObserver(() => {
+        this.enforceDarkModeColors();
+      });
+      
+      this.darkModeObserver.observe(heroContent, {
+        attributes: true,
+        attributeFilter: ['style', 'class'],
+        subtree: true,
+        childList: true
+      });
+    }
+  }
+
+  // ===================================
+  // EXISTING FUNCTIONALITY
+  // ===================================
   initializeLogo() {
     const logoImg = document.querySelector('.logo-img');
     const heroLogoBg = document.querySelector('.hero-logo-bg');
@@ -635,11 +726,23 @@ class MainApp {
 
   destroy() {
     this.stopAutoSliders();
+    
+    // Clean up dark mode intervals
+    this.darkModeIntervals.forEach(id => clearInterval(id));
+    this.darkModeIntervals = [];
+    
+    // Disconnect dark mode observer
+    if (this.darkModeObserver) {
+      this.darkModeObserver.disconnect();
+      this.darkModeObserver = null;
+    }
+    
     this.portfolioImageCache.clear();
     this.isLoaded = false;
   }
 }
 
+// Inject required styles
 const style = document.createElement('style');
 style.textContent = `
   @keyframes riseAnimation {
@@ -688,6 +791,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Initialize app
 let app;
 
 if (document.readyState === 'loading') {
@@ -700,12 +804,14 @@ if (document.readyState === 'loading') {
   window.app = app;
 }
 
+// Handle visibility changes
 document.addEventListener('visibilitychange', () => {
   if (app) {
     app.handleVisibilityChange();
   }
 });
 
+// Export data to window if available
 if (typeof PORTFOLIO_DATA !== 'undefined') {
   window.PORTFOLIO_DATA = PORTFOLIO_DATA;
 }
