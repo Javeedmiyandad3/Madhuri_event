@@ -267,46 +267,53 @@
     font-size: 0.625rem;
   }
   
-  /* Show the hamburger menu button */
+  /* Mobile Menu Button - GOLD background, dark icon */
   .mobile-menu-btn {
-    display: flex;
-    background: var(--color-button-bg);
-    border: 2px solid var(--color-button-bg);
-    color: var(--color-button-text);
+    display: flex !important;
+    background: #C7B8A1 !important;
+    border: 2px solid #C7B8A1 !important;
+    color: #1a1a1a !important;
+    font-size: 1.25rem !important;
+    width: 44px !important;
+    height: 44px !important;
   }
   
   .mobile-menu-btn:hover {
-    background: var(--color-hover);
-    border-color: var(--color-hover);
-    transform: scale(1.05);
+    background: #BDA98F !important;
+    border-color: #BDA98F !important;
   }
   
   /* When menu is open, button stays highlighted */
   .mobile-menu-btn.active {
-    background: var(--color-hover);
-    border-color: var(--color-hover);
+    background: #BDA98F !important;
+    border-color: #BDA98F !important;
   }
   
-  /* Mobile menu slides down from header */
+  .mobile-menu-btn i {
+    color: #1a1a1a !important;
+    font-size: 1.25rem !important;
+  }
+  
+  /* Mobile Navigation Menu - Very visible dropdown */
   .nav-menu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary);
+    background: #FFFFFF !important;
     flex-direction: column;
-    padding: 1rem 2rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem 2rem !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
     gap: 0;
-    border-top: 2px solid var(--color-accent);
-    border-bottom: 2px solid var(--color-accent);
+    border-top: 3px solid #C7B8A1 !important;
+    border-bottom: 3px solid #C7B8A1 !important;
     z-index: 1000;
   }
   
   /* Show menu when active */
   .nav-menu.active {
-    display: flex;
+    display: flex !important;
     animation: slideDown 0.3s ease-out;
   }
   
@@ -322,27 +329,29 @@
     }
   }
   
-  /* Mobile menu links - bigger and easier to tap */
+  /* Menu Items - Dark text on white background */
   .nav-menu a {
-    padding: 1rem 0.5rem;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 1.1rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
+    padding: 1.2rem 1rem !important;
+    border-bottom: 2px solid #ECEAE4 !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
     transition: all 0.2s ease;
+    background: #FFFFFF !important;
   }
   
   .nav-menu a:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
   }
   
   /* Nice hover effect with indent */
   .nav-menu a:hover,
   .nav-menu a:focus,
   .nav-menu a.active {
-    background: var(--color-surface);
-    color: var(--color-button-bg);
-    padding-left: 1rem;
+    background: #F8F7F4 !important;
+    color: #C7B8A1 !important;
+    padding-left: 1.5rem !important;
+    transform: translateX(5px);
   }
   
   /* Smaller contact button on mobile */
@@ -374,15 +383,47 @@
   }
   
   .nav-menu a {
-    font-size: 1rem;
+    font-size: 1.1rem !important;
+    padding: 1rem 0.8rem !important;
+  }
+  
+  .mobile-menu-btn {
+    width: 40px !important;
+    height: 40px !important;
   }
 }
 
 /* Dark mode adjustments for mobile menu */
 @media (prefers-color-scheme: dark) {
   @media (max-width: 768px) {
+    .mobile-menu-btn {
+      background: #C7B8A1 !important;
+      border-color: #C7B8A1 !important;
+      color: #1a1a1a !important;
+    }
+    
+    .mobile-menu-btn i {
+      color: #1a1a1a !important;
+    }
+    
     .nav-menu {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      background: #2d2d2d !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+      border-top-color: #C7B8A1 !important;
+      border-bottom-color: #C7B8A1 !important;
+    }
+    
+    .nav-menu a {
+      color: #E8E6E3 !important;
+      background: #2d2d2d !important;
+      border-bottom-color: #3d3d3d !important;
+    }
+    
+    .nav-menu a:hover,
+    .nav-menu a:focus,
+    .nav-menu a.active {
+      background: #3d3d3d !important;
+      color: #C7B8A1 !important;
     }
   }
 }

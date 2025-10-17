@@ -300,7 +300,9 @@
   }
 }
 
-/* Dark mode support for users who prefer it */
+/* ===================================
+   DARK MODE - Enhanced Text Visibility
+   =================================== */
 @media (prefers-color-scheme: dark) {
   .hero {
     background: linear-gradient(135deg, 
@@ -324,15 +326,24 @@
     opacity: 0.06;
   }
   
+  /* HERO TITLE - Enhanced visibility in dark mode */
   .hero-title {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5),
-                 0 4px 16px rgba(0, 0, 0, 0.3);
+    color: #E8E6E3 !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8),
+                 0 4px 16px rgba(0, 0, 0, 0.6),
+                 0 0 40px rgba(199, 184, 161, 0.3) !important;
+    font-weight: 700 !important;
   }
   
+  /* HERO SUBTITLE - Enhanced visibility in dark mode */
   .hero-subtitle {
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    color: #B8B5B2 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6),
+                 0 0 20px rgba(199, 184, 161, 0.2) !important;
+    font-weight: 500 !important;
   }
   
+  /* Floating Elements - More visible in dark mode */
   .floating-element {
     opacity: 0.6;
     filter: drop-shadow(0 2px 8px rgba(212, 185, 150, 0.3));
@@ -354,6 +365,15 @@
     opacity: 0.35;
   }
   
+  /* CTA Button - Enhanced visibility in dark mode */
+  .cta-button {
+    box-shadow: 0 4px 16px rgba(199, 184, 161, 0.4) !important;
+  }
+  
+  .cta-button:hover {
+    box-shadow: 0 8px 24px rgba(199, 184, 161, 0.6) !important;
+  }
+  
   /* Stars twinkle more prominently in dark mode */
   @keyframes twinkle {
     0%, 100% {
@@ -366,6 +386,10 @@
     }
   }
 }
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
 
 /* Tablet and smaller laptop screens */
 @media (max-width: 768px) {
