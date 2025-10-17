@@ -1,18 +1,24 @@
 /* ===================================
-   SERVICES COMPONENT - Elegant Minimal
+   SERVICES & ABOUT SECTIONS
+   Clean, minimal design with smooth interactions
    =================================== */
 
-/* Services Section */
+/* ===================================
+   SERVICES SECTION
+   =================================== */
+
 .services {
   background: var(--color-surface);
 }
 
+/* Main slider wrapper */
 .services-slider-container {
   position: relative;
   max-width: 100%;
   margin: var(--spacing-8) 0;
 }
 
+/* The slider frame */
 .services-slider {
   overflow: hidden;
   border-radius: var(--border-radius-2xl);
@@ -21,12 +27,14 @@
   border: 1px solid var(--color-border);
 }
 
+/* Sliding track that holds all slides */
 .services-track {
   display: flex;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
 }
 
+/* Individual service slide - split layout */
 .service-slide {
   min-width: 100%;
   display: grid;
@@ -36,6 +44,7 @@
   align-items: center;
 }
 
+/* Text content area */
 .service-content {
   padding: var(--spacing-4);
 }
@@ -57,6 +66,7 @@
   font-weight: var(--font-weight-light);
 }
 
+/* Feature list styling */
 .service-features {
   list-style: none;
   padding: 0;
@@ -74,6 +84,7 @@
   font-weight: var(--font-weight-light);
 }
 
+/* Gold star bullet points */
 .service-features li::before {
   content: '✦';
   position: absolute;
@@ -84,6 +95,7 @@
   transition: transform var(--transition-fast);
 }
 
+/* Hover effects - text gets darker, stars get bigger */
 .service-slide:hover .service-features li {
   color: var(--text-primary);
 }
@@ -92,6 +104,7 @@
   transform: scale(1.2);
 }
 
+/* Image container with border and shadow */
 .service-image-container {
   position: relative;
   border-radius: var(--border-radius-xl);
@@ -107,10 +120,12 @@
   transition: transform var(--transition-slow);
 }
 
+/* Subtle zoom on hover */
 .service-slide:hover .service-image {
   transform: scale(1.05);
 }
 
+/* Overlay gradient that appears on hover */
 .service-image-container::after {
   content: '';
   position: absolute;
@@ -129,7 +144,7 @@
   opacity: 1;
 }
 
-/* Slider Controls - Elegant */
+/* Previous/Next navigation buttons */
 .slider-controls {
   display: flex;
   justify-content: center;
@@ -165,7 +180,7 @@
   transform: scale(0.95);
 }
 
-/* Slider Dots - Elegant */
+/* Dot navigation below slider */
 .slider-dots {
   display: flex;
   justify-content: center;
@@ -183,6 +198,7 @@
   border: 2px solid transparent;
 }
 
+/* Active dot gets bigger with a glow */
 .dot.active {
   background: var(--color-button-bg);
   transform: scale(1.3);
@@ -195,11 +211,15 @@
   transform: scale(1.1);
 }
 
-/* About Section - Elegant */
+/* ===================================
+   ABOUT SECTION
+   =================================== */
+
 .about {
   background: var(--color-bg);
 }
 
+/* Two-column layout for about content */
 .about-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -223,6 +243,7 @@
   font-weight: var(--font-weight-light);
 }
 
+/* Specialty areas card */
 .specialties {
   margin-top: var(--spacing-8);
   background: var(--color-surface);
@@ -255,6 +276,7 @@
   font-weight: var(--font-weight-light);
 }
 
+/* Diamond bullet points */
 .specialties-list li::before {
   content: '◆';
   position: absolute;
@@ -263,14 +285,66 @@
   color: var(--color-gold-accent);
 }
 
-.about-image {
+/* About image gallery container */
+.about-gallery {
   position: relative;
-  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
+/* Main slider wrapper for about images */
+.about-slider {
+  position: relative;
+  width: 100%;
+  border-radius: var(--border-radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-elevated);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+/* Container that holds all slides and moves them */
+.about-slides {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Individual image slides */
+.about-slide-image {
+  min-width: 100%;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+  backface-visibility: hidden;
+}
+
+.about-slide-image.active {
+  opacity: 1;
+}
+
+/* For when there's only one image (no slider needed) */
+.about-image-single {
+  width: 100%;
+  border-radius: var(--border-radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-elevated);
+  border: 1px solid var(--color-border);
+}
+
+.about-image-single .about-image,
 .about-image img {
   width: 100%;
   max-width: 400px;
+  height: 400px;
+  object-fit: cover;
+  display: block;
   border-radius: var(--border-radius-2xl);
   box-shadow: var(--shadow-elevated);
   transition: transform var(--transition-normal);
@@ -281,7 +355,137 @@
   transform: scale(1.03);
 }
 
-.image-overlay {
+/* Previous/Next buttons for about slider */
+.about-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-3);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Show navigation on hover */
+.about-slider:hover .about-nav {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.about-nav-btn {
+  background: rgba(253, 252, 250, 0.95);
+  border: 1px solid var(--color-border);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-button-bg);
+  font-size: var(--font-size-lg);
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-soft);
+  pointer-events: auto;
+}
+
+.about-nav-btn:hover {
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-button-bg);
+}
+
+.about-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.about-nav-btn:focus {
+  outline: 2px solid var(--color-button-bg);
+  outline-offset: 2px;
+}
+
+.about-nav-btn i {
+  font-size: 14px;
+}
+
+/* Progress dots at bottom of slider */
+.about-dots {
+  position: absolute;
+  bottom: var(--spacing-4);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--spacing-2);
+  background: rgba(46, 46, 46, 0.6);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--border-radius-2xl);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.about-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+/* Active dot is bigger and glows */
+.about-dot.active {
+  background: var(--color-champagne);
+  transform: scale(1.4);
+  box-shadow: 0 0 6px rgba(232, 220, 196, 0.8);
+}
+
+.about-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.about-dot:focus {
+  outline: 2px solid var(--color-button-bg);
+  outline-offset: 1px;
+}
+
+/* What shows while images are loading */
+.about-image-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: var(--color-surface);
+  border-radius: var(--border-radius-2xl);
+  border: 1px solid var(--color-border);
+  color: var(--text-secondary);
+}
+
+.about-image-loading i {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--spacing-4);
+  color: var(--color-button-bg);
+}
+
+.about-image-loading p {
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+/* "5+ Years Experience" badge overlay */
+.image-overlay,
+.about-slider .image-overlay {
   position: absolute;
   bottom: var(--spacing-6);
   left: 50%;
@@ -295,9 +499,14 @@
   box-shadow: var(--shadow-card);
   font-family: var(--font-body);
   letter-spacing: 0.02em;
+  font-size: var(--font-size-sm);
+  z-index: 11;
 }
 
-/* Contact Section - Elegant */
+/* ===================================
+   CONTACT SECTION
+   =================================== */
+
 .contact {
   background: var(--color-surface);
   color: var(--text-primary);
@@ -313,6 +522,7 @@
   z-index: 2;
 }
 
+/* Grid of contact methods */
 .contact-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -320,6 +530,7 @@
   margin: var(--spacing-12) 0;
 }
 
+/* Individual contact card */
 .contact-item {
   display: flex;
   align-items: center;
@@ -332,6 +543,7 @@
   box-shadow: var(--shadow-soft);
 }
 
+/* Cards lift up on hover */
 .contact-item:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-card);
@@ -358,6 +570,7 @@
   font-weight: var(--font-weight-light);
 }
 
+/* Call-to-action buttons */
 .contact-buttons {
   display: flex;
   justify-content: center;
@@ -395,8 +608,13 @@
   font-size: var(--font-size-xl);
 }
 
-/* Responsive Design */
+/* ===================================
+   RESPONSIVE DESIGN
+   Tablet and mobile adjustments
+   =================================== */
+
 @media (max-width: 768px) {
+  /* Services switches to single column */
   .service-slide {
     grid-template-columns: 1fr;
     gap: var(--spacing-8);
@@ -404,6 +622,7 @@
     text-align: center;
   }
   
+  /* Show image first on mobile */
   .service-content {
     order: 2;
   }
@@ -416,6 +635,7 @@
     height: 250px;
   }
   
+  /* Smaller text on mobile */
   .service-content h3 {
     font-size: var(--font-size-2xl);
   }
@@ -424,6 +644,7 @@
     font-size: var(--font-size-base);
   }
   
+  /* Slightly smaller controls */
   .slider-controls {
     gap: var(--spacing-4);
   }
@@ -434,6 +655,7 @@
     font-size: var(--font-size-base);
   }
   
+  /* About section stacks vertically */
   .about-content {
     grid-template-columns: 1fr;
     gap: var(--spacing-8);
@@ -447,11 +669,58 @@
     order: 1;
   }
   
+  /* About gallery adjustments */
+  .about-gallery {
+    max-width: 100%;
+  }
+  
+  .about-slide-image,
+  .about-image-single .about-image,
+  .about-image-loading {
+    height: 300px;
+  }
+  
+  .about-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-size-base);
+  }
+  
+  .about-nav-btn i {
+    font-size: 12px;
+  }
+  
+  /* Smaller dots for mobile - better fit */
+  .about-dots {
+    bottom: var(--spacing-2);
+    padding: 4px 8px;
+    gap: 6px;
+  }
+  
+  .about-dot {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .about-dot.active {
+    width: 5px;
+    height: 5px;
+    transform: scale(1.2);
+  }
+  
+  .about-slider .image-overlay {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-2) var(--spacing-4);
+    bottom: var(--spacing-4);
+  }
+  
+  /* Contact cards stack */
   .contact-info {
     grid-template-columns: 1fr;
     gap: var(--spacing-6);
   }
   
+  /* Contact buttons stack vertically */
   .contact-buttons {
     flex-direction: column;
     align-items: center;
@@ -463,328 +732,100 @@
     justify-content: center;
   }
 }
-/* About Gallery Container */
-.about-gallery {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-}
 
-/* About Slider */
-.about-slider {
-    position: relative;
-    width: 100%;
-    border-radius: var(--border-radius-2xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-elevated);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-}
-
-/* About Slides Container */
-.about-slides {
-    display: flex;
-    width: 100%;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-}
-
-/* Individual About Slide Images */
-.about-slide-image {
-    min-width: 100%;
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    flex-shrink: 0;
-    transition: opacity 0.3s ease;
-}
-
-.about-slide-image.active {
-    opacity: 1;
-}
-
-/* Single About Image (when only one image) */
-.about-image-single {
-    width: 100%;
-    border-radius: var(--border-radius-2xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-elevated);
-    border: 1px solid var(--color-border);
-}
-
-.about-image-single .about-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    display: block;
-}
-
-/* About Navigation Buttons */
-.about-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 var(--spacing-3);
-    opacity: 0;
-    transition: opacity var(--transition-normal);
-    pointer-events: none;
-    z-index: 10;
-}
-
-.about-slider:hover .about-nav {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.about-nav-btn {
-    background: rgba(253, 252, 250, 0.95);
-    border: 1px solid var(--color-border);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-button-bg);
-    font-size: var(--font-size-lg);
-    transition: all var(--transition-fast);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-soft);
-    pointer-events: auto;
-}
-
-.about-nav-btn:hover {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
-    transform: scale(1.1);
-    box-shadow: var(--shadow-card);
-    border-color: var(--color-button-bg);
-}
-
-.about-nav-btn:active {
-    transform: scale(0.95);
-}
-
-.about-nav-btn i {
-    font-size: 14px;
-}
-
-/* About Dots Navigation */
-.about-dots {
-    position: absolute;
-    bottom: var(--spacing-4);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: var(--spacing-2);
-    background: rgba(46, 46, 46, 0.6);
-    padding: var(--spacing-2) var(--spacing-3);
-    border-radius: var(--border-radius-2xl);
-    backdrop-filter: blur(10px);
-    z-index: 10;
-}
-
-.about-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    flex-shrink: 0;
-}
-
-.about-dot.active {
-    background: var(--color-champagne);
-    transform: scale(1.4);
-    box-shadow: 0 0 6px rgba(232, 220, 196, 0.8);
-}
-
-.about-dot:hover {
-    background: rgba(255, 255, 255, 0.8);
-    transform: scale(1.2);
-}
-
-/* Loading State */
-.about-image-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 400px;
-    background: var(--color-surface);
-    border-radius: var(--border-radius-2xl);
-    border: 1px solid var(--color-border);
-    color: var(--text-secondary);
-}
-
-.about-image-loading i {
-    font-size: var(--font-size-4xl);
-    margin-bottom: var(--spacing-4);
-    color: var(--color-button-bg);
-}
-
-.about-image-loading p {
-    font-size: var(--font-size-base);
-    margin: 0;
-}
-
-/* Image Overlay (5+ Years badge) - Optional */
-.about-slider .image-overlay {
-    position: absolute;
-    bottom: var(--spacing-6);
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(203, 188, 163, 0.95);
-    color: var(--color-warm-white);
-    padding: var(--spacing-3) var(--spacing-6);
-    border-radius: var(--border-radius-2xl);
-    font-weight: var(--font-weight-medium);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-card);
-    font-family: var(--font-body);
-    letter-spacing: 0.02em;
-    font-size: var(--font-size-sm);
-    z-index: 11;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .about-gallery {
-        max-width: 100%;
-    }
-    
-    .about-slide-image,
-    .about-image-single .about-image,
-    .about-image-loading {
-        height: 300px;
-    }
-    
-    .about-nav-btn {
-        width: 36px;
-        height: 36px;
-        font-size: var(--font-size-base);
-    }
-    
-    .about-nav-btn i {
-        font-size: 12px;
-    }
-    
-    .about-dots {
-        bottom: var(--spacing-3);
-        padding: var(--spacing-1) var(--spacing-2);
-    }
-    
-    .about-dot {
-        width: 6px;
-        height: 6px;
-    }
-    
-    .about-slider .image-overlay {
-        font-size: var(--font-size-xs);
-        padding: var(--spacing-2) var(--spacing-4);
-        bottom: var(--spacing-4);
-    }
-}
-
+/* Extra small phones */
 @media (max-width: 480px) {
-    .about-slide-image,
-    .about-image-single .about-image,
-    .about-image-loading {
-        height: 250px;
-    }
-    
-    .about-nav-btn {
-        width: 32px;
-        height: 32px;
-        font-size: var(--font-size-sm);
-    }
-    
-    .about-nav-btn i {
-        font-size: 10px;
-    }
-    
-    .about-slider .image-overlay {
-        font-size: 11px;
-        padding: var(--spacing-1) var(--spacing-3);
-    }
+  .about-slide-image,
+  .about-image-single .about-image,
+  .about-image-loading {
+    height: 250px;
+  }
+  
+  .about-nav-btn {
+    width: 32px;
+    height: 32px;
+    font-size: var(--font-size-sm);
+  }
+  
+  .about-nav-btn i {
+    font-size: 10px;
+  }
+  
+  /* Even tinier dots for small phones */
+  .about-dots {
+    bottom: var(--spacing-1);
+    padding: 3px 6px;
+    gap: 4px;
+  }
+  
+  .about-dot {
+    width: 3px;
+    height: 3px;
+  }
+  
+  .about-dot.active {
+    width: 4px;
+    height: 4px;
+    transform: scale(1.1);
+  }
+  
+  .about-slider .image-overlay {
+    font-size: 11px;
+    padding: var(--spacing-1) var(--spacing-3);
+  }
 }
 
-/* Touch Device Optimizations */
+/* ===================================
+   ACCESSIBILITY & DEVICE SUPPORT
+   =================================== */
+
+/* Touch devices - always show navigation */
 @media (hover: none) and (pointer: coarse) {
-    .about-nav {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    
-    .about-nav-btn {
-        width: 44px;
-        height: 44px;
-    }
-    
-    .about-slider:hover {
-        transform: none;
-    }
+  .about-nav {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  /* Bigger touch targets */
+  .about-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .about-slider:hover {
+    transform: none;
+  }
 }
 
-/* Performance Optimizations */
-.about-slides {
-    will-change: transform;
-    backface-visibility: hidden;
-}
-
-.about-slide-image {
-    will-change: opacity;
-    backface-visibility: hidden;
-}
-
-/* Accessibility */
-.about-nav-btn:focus {
-    outline: 2px solid var(--color-button-bg);
-    outline-offset: 2px;
-}
-
-.about-dot:focus {
-    outline: 2px solid var(--color-button-bg);
-    outline-offset: 1px;
-}
-
-/* High Contrast Mode */
+/* High contrast mode for better visibility */
 @media (prefers-contrast: high) {
-    .about-nav-btn {
-        background: var(--color-warm-white);
-        border: 2px solid var(--text-primary);
-        color: var(--text-primary);
-    }
-    
-    .about-dot {
-        border: 1px solid var(--color-warm-white);
-    }
-    
-    .about-dot.active {
-        background: var(--color-warm-white);
-        border-color: var(--text-primary);
-    }
+  .about-nav-btn {
+    background: var(--color-warm-white);
+    border: 2px solid var(--text-primary);
+    color: var(--text-primary);
+  }
+  
+  .about-dot {
+    border: 1px solid var(--color-warm-white);
+  }
+  
+  .about-dot.active {
+    background: var(--color-warm-white);
+    border-color: var(--text-primary);
+  }
 }
 
-/* Reduced Motion Support */
+/* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-    .about-slides {
-        transition: none;
-    }
-    
-    .about-slide-image {
-        transition: none;
-    }
-    
-    .about-slider:hover {
-        transform: none;
-    }
+  .about-slides {
+    transition: none;
+  }
+  
+  .about-slide-image {
+    transition: none;
+  }
+  
+  .about-slider:hover {
+    transform: none;
+  }
 }

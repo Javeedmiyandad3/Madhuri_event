@@ -2,14 +2,14 @@
    HERO SECTION - Elegant Minimal Luxury
    =================================== */
 
-/* Hero Container */
+/* Main hero container - updated gradient for richer tones */
 .hero {
   height: 70vh;
   min-height: 500px;
   background: linear-gradient(135deg, 
-    rgba(232, 220, 196, 0.3) 0%, 
-    rgba(248, 247, 244, 0.5) 50%, 
-    rgba(214, 207, 196, 0.3) 100%);
+    rgba(203, 188, 163, 0.3) 0%, 
+    rgba(214, 207, 196, 0.4) 50%, 
+    rgba(199, 184, 161, 0.3) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,10 +18,10 @@
   position: relative;
   overflow: hidden;
   margin-top: 80px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-accent);
 }
 
-/* Elegant Gradient Overlay */
+/* Soft gradient overlay to create depth */
 .hero::before {
   content: '';
   position: absolute;
@@ -30,12 +30,12 @@
   right: 0;
   bottom: 0;
   background: radial-gradient(circle at center, 
-    rgba(248, 247, 244, 0.8) 0%, 
-    rgba(248, 247, 244, 0.95) 100%);
+    rgba(253, 252, 250, 0.85) 0%, 
+    rgba(248, 247, 244, 0.75) 100%);
   z-index: 1;
 }
 
-/* Logo Background Watermark - More Subtle */
+/* Background logo watermark - made more visible but still subtle */
 .hero-logo-bg {
   position: absolute;
   top: 50%;
@@ -49,13 +49,13 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  opacity: 0.04;
+  opacity: 0.12;
   z-index: 1;
   pointer-events: none;
-  filter: grayscale(100%);
+  filter: grayscale(50%) brightness(1.1);
 }
 
-/* Fallback AA text - More Subtle */
+/* Fallback "AA" text if logo doesn't load */
 .hero-logo-bg::after {
   content: 'AA';
   position: absolute;
@@ -65,12 +65,12 @@
   font-size: 15rem;
   font-weight: bold;
   color: var(--color-accent);
-  opacity: 0.03;
+  opacity: 0.08;
   font-family: var(--font-heading);
   letter-spacing: -20px;
 }
 
-/* Hero Content */
+/* Container for all hero text content */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -78,6 +78,7 @@
   padding: 0 var(--spacing-8);
 }
 
+/* Main hero heading with soft glow effect */
 .hero-title {
   font-size: var(--font-size-5xl);
   font-weight: var(--font-weight-semibold);
@@ -86,23 +87,26 @@
   font-family: var(--font-heading);
   letter-spacing: -0.02em;
   line-height: 1.2;
-  text-shadow: 0 2px 4px rgba(46, 46, 46, 0.05);
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8),
+               0 4px 16px rgba(255, 255, 255, 0.6);
 }
 
+/* Subtitle text with medium weight and subtle shadow */
 .hero-subtitle {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-8);
   color: var(--text-secondary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   line-height: var(--line-height-relaxed);
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
   font-family: var(--font-body);
   letter-spacing: 0.01em;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.7);
 }
 
-/* CTA Button - Luxury Style */
+/* Call-to-action button with expanding hover effect */
 .cta-button {
   display: inline-flex;
   align-items: center;
@@ -123,6 +127,7 @@
   overflow: hidden;
 }
 
+/* Circle expansion effect on hover */
 .cta-button::before {
   content: '';
   position: absolute;
@@ -148,6 +153,7 @@
   color: var(--color-warm-white);
 }
 
+/* Keep text and icon above the expanding circle */
 .cta-button span,
 .cta-icon {
   position: relative;
@@ -158,11 +164,12 @@
   transition: transform var(--transition-normal);
 }
 
+/* Arrow slides right on hover */
 .cta-button:hover .cta-icon {
   transform: translateX(4px);
 }
 
-/* Enhanced Floating Elements - Minimal */
+/* Container for all floating decorative elements */
 .floating-elements {
   position: absolute;
   top: 0;
@@ -175,47 +182,50 @@
   opacity: 0.4;
 }
 
+/* Base styling for floating icons - now using CSS variables for colors */
 .floating-element {
   position: absolute;
   font-size: 2rem;
-  opacity: 0.3;
+  opacity: var(--floating-element-opacity, 0.4);
   will-change: transform;
   user-select: none;
   filter: drop-shadow(0 2px 4px rgba(46, 46, 46, 0.08));
   color: var(--color-taupe);
 }
 
-/* Balloon Elements */
+/* Balloon decorations with medium float */
 .balloon {
   font-size: 2.5rem;
   animation: float 6s ease-in-out infinite;
-  color: var(--color-champagne);
+  color: var(--floating-element-color-1, #C7B8A1);
+  opacity: 0.5;
 }
 
-/* Flower Elements */
+/* Flower decorations with slower movement */
 .flower {
   font-size: 2rem;
   animation: floatSlow 8s ease-in-out infinite;
-  opacity: 0.25;
-  color: var(--color-accent);
+  opacity: 0.35;
+  color: var(--floating-element-color-2, #B89968);
 }
 
-/* Star Elements */
+/* Star decorations with twinkling effect */
 .star {
   font-size: 1.5rem;
   animation: twinkle 4s ease-in-out infinite;
-  color: var(--color-gold-accent);
+  color: var(--floating-element-color-3, #C9A66B);
+  opacity: 0.6;
 }
 
-/* Cake Elements */
+/* Cake decorations with slowest float */
 .cake {
   font-size: 2.2rem;
   animation: float 10s ease-in-out infinite;
-  opacity: 0.2;
-  color: var(--color-taupe);
+  opacity: 0.3;
+  color: var(--floating-element-color-1, #C7B8A1);
 }
 
-/* Subtle Animations */
+/* Gentle up and down floating motion */
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -225,6 +235,7 @@
   }
 }
 
+/* Slower float with slight scale change */
 @keyframes floatSlow {
   0%, 100% {
     transform: translateY(0px) rotate(0deg) scale(1);
@@ -234,6 +245,7 @@
   }
 }
 
+/* Pulsing opacity and scale for stars */
 @keyframes twinkle {
   0%, 100% {
     opacity: 0.15;
@@ -245,16 +257,18 @@
   }
 }
 
-/* Animation classes */
+/* Simple fade in from below */
 .animate-fade-in {
   animation: fadeIn 1s ease-out forwards;
 }
 
+/* Fade in with a slight delay */
 .animate-fade-in-delay {
   animation: fadeIn 1s ease-out 0.3s forwards;
   opacity: 0;
 }
 
+/* Gentle bounce in effect */
 .animate-bounce-in {
   animation: bounceInSubtle 0.8s ease-out 0.6s forwards;
   opacity: 0;
@@ -286,7 +300,74 @@
   }
 }
 
-/* Responsive Design */
+/* Dark mode support for users who prefer it */
+@media (prefers-color-scheme: dark) {
+  .hero {
+    background: linear-gradient(135deg, 
+      rgba(38, 38, 38, 0.9) 0%, 
+      rgba(26, 26, 26, 0.95) 50%, 
+      rgba(30, 30, 30, 0.9) 100%);
+  }
+  
+  .hero::before {
+    background: radial-gradient(circle at center, 
+      rgba(26, 26, 26, 0.7) 0%, 
+      rgba(26, 26, 26, 0.9) 100%);
+  }
+  
+  .hero-logo-bg {
+    opacity: 0.08;
+    filter: grayscale(100%) brightness(1.5);
+  }
+  
+  .hero-logo-bg::after {
+    opacity: 0.06;
+  }
+  
+  .hero-title {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5),
+                 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .hero-subtitle {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+  
+  .floating-element {
+    opacity: 0.6;
+    filter: drop-shadow(0 2px 8px rgba(212, 185, 150, 0.3));
+  }
+  
+  .balloon {
+    opacity: 0.6;
+  }
+  
+  .flower {
+    opacity: 0.4;
+  }
+  
+  .star {
+    opacity: 0.7;
+  }
+  
+  .cake {
+    opacity: 0.35;
+  }
+  
+  /* Stars twinkle more prominently in dark mode */
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.2);
+    }
+  }
+}
+
+/* Tablet and smaller laptop screens */
 @media (max-width: 768px) {
   .hero {
     height: 60vh;
@@ -332,6 +413,7 @@
   }
 }
 
+/* Mobile phones */
 @media (max-width: 480px) {
   .hero {
     height: 50vh;

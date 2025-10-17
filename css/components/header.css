@@ -1,8 +1,9 @@
 /* ===================================
-   HEADER COMPONENT - Elegant Minimal Luxury
+   Header Component - Clean & Elegant
+   Making navigation feel luxurious
    =================================== */
 
-/* Header Container */
+/* Main header wrapper - stays at the top */
 .header {
   position: fixed;
   top: 0;
@@ -17,6 +18,7 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Slightly more prominent when scrolled */
 .header.scrolled {
   background: rgba(253, 252, 250, 0.98);
   box-shadow: 0 4px 12px rgba(46, 46, 46, 0.08);
@@ -24,7 +26,7 @@
   border-bottom: 1px solid var(--color-accent);
 }
 
-/* Navigation Container */
+/* Container that holds everything in the nav */
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -34,7 +36,7 @@
   padding: 0 2rem;
 }
 
-/* Logo Section */
+/* Logo area with image and text */
 .logo-section {
   display: flex;
   align-items: center;
@@ -47,6 +49,7 @@
   transform: scale(1.02);
 }
 
+/* The circular logo container */
 .logo-image {
   width: 50px;
   height: 50px;
@@ -62,6 +65,7 @@
   border: 2px solid var(--color-border);
 }
 
+/* Hide fallback if we don't need it */
 .logo-fallback {
   display: none !important;
 }
@@ -74,6 +78,7 @@
   z-index: 2;
 }
 
+/* Hide broken images gracefully */
 .logo-img[src=""],
 .logo-img:not([src]) {
   display: none;
@@ -85,6 +90,7 @@
   border-color: var(--color-accent);
 }
 
+/* Text next to the logo */
 .logo-text {
   display: flex;
   flex-direction: column;
@@ -109,14 +115,14 @@
   font-family: var(--font-body);
 }
 
-/* Navigation Content */
+/* Right side of the header */
 .nav-content {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
 
-/* Main Navigation Menu */
+/* Desktop navigation links */
 .nav-menu {
   display: flex;
   list-style: none;
@@ -142,6 +148,7 @@
   letter-spacing: 0.02em;
 }
 
+/* Nice underline animation on hover */
 .nav-menu a::after {
   content: '';
   position: absolute;
@@ -165,14 +172,14 @@
   width: 100%;
 }
 
-/* Quick Contact Section */
+/* Contact button area */
 .quick-contact {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Header Contact Button - Luxury Style */
+/* The main contact button - styled to stand out */
 .header-contact-btn {
   background: var(--color-button-bg);
   color: var(--color-button-text);
@@ -195,6 +202,7 @@
   letter-spacing: 0.02em;
 }
 
+/* Phone emoji before the text */
 .header-contact-btn::before {
   content: '📞';
   margin-right: 0.5rem;
@@ -211,7 +219,7 @@
   border-color: var(--color-hover);
 }
 
-/* Mobile Menu Button */
+/* Hamburger button - hidden on desktop */
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -234,12 +242,18 @@
   transform: scale(1.05);
 }
 
-/* Mobile Styles */
+/* ===================================
+   Mobile & Tablet Styles
+   Everything looks good on small screens
+   =================================== */
+
+/* Tablet and mobile phones */
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
   }
   
+  /* Smaller logo for mobile */
   .logo-image {
     width: 40px;
     height: 40px;
@@ -253,38 +267,85 @@
     font-size: 0.625rem;
   }
   
+  /* Show the hamburger menu button */
   .mobile-menu-btn {
     display: flex;
+    background: var(--color-button-bg);
+    border: 2px solid var(--color-button-bg);
+    color: var(--color-button-text);
   }
   
+  .mobile-menu-btn:hover {
+    background: var(--color-hover);
+    border-color: var(--color-hover);
+    transform: scale(1.05);
+  }
+  
+  /* When menu is open, button stays highlighted */
+  .mobile-menu-btn.active {
+    background: var(--color-hover);
+    border-color: var(--color-hover);
+  }
+  
+  /* Mobile menu slides down from header */
   .nav-menu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--color-warm-white);
+    background: var(--bg-secondary);
     flex-direction: column;
     padding: 1rem 2rem;
-    box-shadow: var(--shadow-elevated);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     gap: 0;
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+    z-index: 1000;
   }
   
+  /* Show menu when active */
   .nav-menu.active {
     display: flex;
+    animation: slideDown 0.3s ease-out;
   }
   
+  /* Smooth slide-down animation */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Mobile menu links - bigger and easier to tap */
   .nav-menu a {
     padding: 1rem 0.5rem;
-    border-bottom: 1px solid var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
   }
   
   .nav-menu a:last-child {
     border-bottom: none;
   }
   
+  /* Nice hover effect with indent */
+  .nav-menu a:hover,
+  .nav-menu a:focus,
+  .nav-menu a.active {
+    background: var(--color-surface);
+    color: var(--color-button-bg);
+    padding-left: 1rem;
+  }
+  
+  /* Smaller contact button on mobile */
   .header-contact-btn {
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
@@ -295,17 +356,33 @@
   }
 }
 
+/* Extra small phones */
 @media (max-width: 480px) {
   .business-name {
     font-size: 0.875rem;
   }
   
+  /* Hide tagline to save space */
   .business-tagline {
     display: none;
   }
   
+  /* Even smaller contact button */
   .header-contact-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.7rem;
+  }
+  
+  .nav-menu a {
+    font-size: 1rem;
+  }
+}
+
+/* Dark mode adjustments for mobile menu */
+@media (prefers-color-scheme: dark) {
+  @media (max-width: 768px) {
+    .nav-menu {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
   }
 }
