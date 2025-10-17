@@ -9,15 +9,80 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Stylesheets -->
+    <!-- Stylesheets - Add floating animations CSS -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/enhanced-accessibility.css">
     <link rel="stylesheet" href="css/components/header.css">
     <link rel="stylesheet" href="css/components/hero.css">
     <link rel="stylesheet" href="css/components/portfolio.css">
     <link rel="stylesheet" href="css/components/services.css">
-    <link rel="stylesheet" href="css/components/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Inline Floating Animations CSS -->
+    <style>
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.5;
+            animation: floatAnimation 8s ease-in-out infinite;
+            user-select: none;
+            pointer-events: none;
+        }
+        
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(-3deg); }
+            75% { transform: translateY(-20px) rotate(8deg); }
+        }
+        
+        @keyframes riseAnimation {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            .floating-element.dynamic { display: none; }
+            .floating-element { font-size: 1.5rem; opacity: 0.3; }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .floating-elements { display: none; }
+        }
+        
+        .loading-message {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .loading-message i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--color-button-bg);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -25,16 +90,16 @@
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- Header (No top contact bar, cleaner design) -->
+    <!-- Header -->
     <header class="header" id="header">
         <nav class="nav-container">
             <a href="#home" class="logo-section">
                 <div class="logo-image">
-                    <span class="logo-fallback">AA</span>
+                    <span class="logo-fallback" style="display:none; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; color:var(--color-button-bg);">AA</span>
                     <img src="images/logo/aa-decor-logo.PNG" 
                          alt="AA Decor Logo" 
                          class="logo-img"
-                         onerror="this.style.display='none'">
+                         onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='flex'">
                 </div>
                 <div class="logo-text">
                     <span class="business-name">AA Event Decor and Rentals</span>
@@ -55,7 +120,7 @@
                     <a href="tel:+16122089898" class="header-contact-btn">Get Quote</a>
                 </div>
                 
-                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -64,26 +129,8 @@
 
     <!-- Main Content -->
     <main id="main">
-        <!-- Hero Section - Reduced height with logo background -->
+        <!-- Hero Section - Floating elements will be added here by JS -->
         <section class="hero" id="home">
-            <!-- Background Logo Watermark -->
-            <div class="hero-logo-bg"></div>
-            
-            <!-- Enhanced Floating Elements -->
-            <div class="floating-elements" id="floating-elements">
-                <!-- Initial decorative elements -->
-                <div class="floating-element balloon" style="left: 10%; top: 20%; animation-delay: 0s;">🎈</div>
-                <div class="floating-element balloon" style="left: 85%; top: 15%; animation-delay: 2s;">🎈</div>
-                <div class="floating-element flower" style="left: 15%; top: 70%; animation-delay: 1s;">🌸</div>
-                <div class="floating-element flower" style="left: 70%; top: 25%; animation-delay: 3s;">🌺</div>
-                <div class="floating-element cake" style="left: 5%; top: 40%; animation-delay: 2s;">🎂</div>
-                <div class="floating-element star" style="left: 90%; top: 60%; animation-delay: 0s;">✨</div>
-                <div class="floating-element flower" style="left: 25%; top: 80%; animation-delay: 4s;">🌼</div>
-                <div class="floating-element balloon" style="left: 60%; top: 10%; animation-delay: 1s;">🎈</div>
-                <div class="floating-element cake" style="left: 45%; top: 85%; animation-delay: 3s;">🧁</div>
-                <div class="floating-element flower" style="left: 35%; top: 50%; animation-delay: 2s;">🌷</div>
-            </div>
-            
             <div class="hero-content">
                 <h1 class="hero-title animate-fade-in">Welcome to AA Event Decor and Rentals</h1>
                 <p class="hero-subtitle animate-fade-in-delay">Your one-stop destination for event décor and rentals. We specialize in creating unforgettable experiences with beautifully designed backdrops, balloon décor, table styling, and rental items that bring your vision to life.</p>
@@ -101,15 +148,13 @@
                 
                 <div class="services-slider-container">
                     <div class="services-slider">
-                        <div class="services-track" id="services-track">
-                            <!-- Service slides will be dynamically added -->
-                        </div>
+                        <div class="services-track" id="services-track"></div>
                     </div>
                     <div class="slider-controls">
-                        <button class="slider-btn prev" onclick="app.changeServiceSlide(-1)">
+                        <button class="slider-btn prev" onclick="app.changeServiceSlide(-1)" aria-label="Previous Service">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <button class="slider-btn next" onclick="app.changeServiceSlide(1)">
+                        <button class="slider-btn next" onclick="app.changeServiceSlide(1)" aria-label="Next Service">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
@@ -124,7 +169,10 @@
                 <h2 class="section-title">Our Portfolio</h2>
                 <p class="section-subtitle">Glimpses of our magical transformations</p>
                 <div class="portfolio-grid" id="portfolio-grid">
-                    <!-- Portfolio items will be dynamically added -->
+                    <div class="loading-message">
+                        <i class="fas fa-spinner"></i>
+                        Loading portfolio...
+                    </div>
                 </div>
             </div>
         </section>
@@ -151,9 +199,7 @@
                         </div>
                     </div>
                     
-                    <!-- UPDATED: Image gallery with slider (populated by JS) -->
                     <div class="about-gallery">
-                        <!-- Images will be dynamically added by main.js createAboutSlider() -->
                         <div class="about-image-loading">
                             <i class="fas fa-spinner fa-spin"></i>
                             <p>Loading images...</p>
@@ -162,6 +208,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Contact Section -->
         <section class="contact section" id="contact">
             <div class="container contact-content">
@@ -203,17 +250,17 @@
             </div>
         </section>
 
-        <!-- Social Media Section - Fixed Layout -->
+        <!-- Social Media Section -->
         <section class="social-section">
             <div class="container">
                 <h2 class="social-title">Connect With Us</h2>
                 <p class="social-subtitle">Follow us for inspiration and updates</p>
                 <div class="social-links-container">
-                    <a href="https://www.facebook.com/share/1AAjeoxDdh/?mibextid=wwXIfr" class="social-link-card">
+                    <a href="https://www.facebook.com/share/1AAjeoxDdh/?mibextid=wwXIfr" class="social-link-card" target="_blank" rel="noopener">
                         <i class="fab fa-facebook-f"></i>
                         <span>Facebook</span>
                     </a>
-                    <a href="https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q " class="social-link-card">
+                    <a href="https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q" class="social-link-card" target="_blank" rel="noopener">
                         <i class="fab fa-instagram"></i>
                         <span>Instagram</span>
                     </a>
@@ -250,8 +297,8 @@
                 <div class="footer-section">
                     <h3>Follow Us</h3>
                     <div class="footer-social">
-                        <a href="https://www.facebook.com/share/1AAjeoxDdh/?mibextid=wwXIfr"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q "><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/1AAjeoxDdh/?mibextid=wwXIfr" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/aa_eventdecor_llc?igsh=dmZsNmx2c2hpY21q" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -268,7 +315,7 @@
         <div id="modal-caption" class="modal-caption"></div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts - Load config FIRST, then main.js -->
     <script src="js/config/portfolio-config.js"></script>
     <script src="js/main.js"></script>
 </body>

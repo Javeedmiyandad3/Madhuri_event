@@ -1,92 +1,44 @@
 /* ===================================
-   ENHANCED ACCESSIBILITY & DARK MODE CSS
-   AA Event Decor and Rentals
-   Add this after main.css or replace color variables
+   COMPLETE DARK MODE SUPPORT
+   Add to enhanced-accessibility.css or create new file
    =================================== */
 
-/* ===================================
-   LIGHT MODE (DEFAULT) - Enhanced Contrast
-   =================================== */
-:root {
-  /* Enhanced Light Mode Colors with Better Contrast */
-  --color-bg: #F8F7F4;
-  --color-surface: #ECEAE4;
-  --color-accent: #C7B8A1;
-  --color-text-primary: #1a1a1a; /* Darker for better contrast */
-  --color-text-secondary: #4a4a4a; /* Darker for better contrast */
-  --color-button-bg: #B89968; /* Slightly darker gold for contrast */
-  --color-button-text: #FFFFFF;
-  --color-hover: #A08050;
-  --color-border: #D6D0C8;
-  
-  /* Additional tones with better visibility */
-  --color-champagne: #D4B896;
-  --color-taupe: #B89968;
-  --color-warm-white: #FDFCFA;
-  --color-greige: #C7B8A1;
-  --color-gold-accent: #B89968;
-  
-  /* Semantic colors */
-  --primary-color: var(--color-button-bg);
-  --secondary-color: var(--color-accent);
-  --text-primary: var(--color-text-primary);
-  --text-secondary: var(--color-text-secondary);
-  --bg-primary: var(--color-bg);
-  --bg-secondary: var(--color-surface);
-  
-  /* Floating elements with better visibility */
-  --floating-element-opacity: 0.5;
-  --floating-element-color-1: #B89968;
-  --floating-element-color-2: #C7B8A1;
-  --floating-element-color-3: #D4B896;
-}
-
-/* ===================================
-   DARK MODE - Full Support
-   =================================== */
+/* Dark mode active when data-theme="dark" OR system preference */
 @media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Mode Color Palette */
+  :root,
+  [data-theme="dark"] {
+    /* Dark Mode Colors */
     --color-bg: #1a1a1a;
     --color-surface: #252525;
     --color-accent: #8B7355;
     --color-text-primary: #E8E6E3;
     --color-text-secondary: #B8B5B2;
     --color-button-bg: #B89968;
-    --color-button-text: #1a1a1a; /* Dark text on gold button */
+    --color-button-text: #1a1a1a;
     --color-hover: #D4B896;
     --color-border: #3a3a3a;
     
-    /* Dark mode specific tones */
     --color-champagne: #8B7355;
     --color-taupe: #A08050;
     --color-warm-white: #2a2a2a;
     --color-greige: #6B5E4F;
     --color-gold-accent: #D4B896;
     
-    /* Semantic colors for dark mode */
-    --text-primary: var(--color-text-primary);
-    --text-secondary: var(--color-text-secondary);
-    --bg-primary: var(--color-bg);
-    --bg-secondary: var(--color-surface);
+    --text-primary: #E8E6E3;
+    --text-secondary: #B8B5B2;
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #252525;
     
     /* Enhanced shadows for dark mode */
     --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.5);
     --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.6);
-    
-    /* Floating elements - more visible in dark mode */
-    --floating-element-opacity: 0.6;
-    --floating-element-color-1: #D4B896;
-    --floating-element-color-2: #B89968;
-    --floating-element-color-3: #C7B8A1;
   }
   
-  /* Body adjustments */
   body {
-    background-color: var(--color-bg);
-    color: var(--text-primary);
+    background-color: #1a1a1a;
+    color: #E8E6E3;
   }
   
   /* ===================================
@@ -94,7 +46,7 @@
      =================================== */
   .header {
     background: rgba(26, 26, 26, 0.95);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #3a3a3a;
   }
   
   .header.scrolled {
@@ -111,32 +63,49 @@
   }
   
   .nav-menu a {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .nav-menu a:hover,
   .nav-menu a:focus,
   .nav-menu a.active {
-    color: var(--color-gold-accent);
+    color: #D4B896;
   }
   
   .logo-image {
-    background: var(--color-surface);
-    border-color: var(--color-border);
+    background: #252525;
+    border-color: #3a3a3a;
   }
   
   .mobile-menu-btn {
-    color: var(--color-button-bg);
-    border-color: var(--color-border);
+    background: #C7B8A1 !important;
+    border-color: #C7B8A1 !important;
+    color: #1a1a1a !important;
   }
   
-  .mobile-menu-btn:hover {
-    background: var(--color-surface);
+  .mobile-menu-btn i {
+    color: #1a1a1a !important;
   }
   
   .nav-menu.active {
-    background: var(--color-surface);
-    border-color: var(--color-border);
+    background: #2d2d2d !important;
+    border-top-color: #C7B8A1 !important;
+    border-bottom-color: #C7B8A1 !important;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-menu a {
+      color: #E8E6E3 !important;
+      background: #2d2d2d !important;
+      border-bottom-color: #3d3d3d !important;
+    }
+    
+    .nav-menu a:hover,
+    .nav-menu a:focus,
+    .nav-menu a.active {
+      background: #3d3d3d !important;
+      color: #C7B8A1 !important;
+    }
   }
   
   /* ===================================
@@ -147,7 +116,7 @@
       rgba(38, 38, 38, 0.9) 0%, 
       rgba(26, 26, 26, 0.95) 50%, 
       rgba(30, 30, 30, 0.9) 100%);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #3a3a3a;
   }
   
   .hero::before {
@@ -157,46 +126,20 @@
   }
   
   .hero-title {
-    color: var(--text-primary);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8),
+                 0 4px 16px rgba(0, 0, 0, 0.6) !important;
   }
   
   .hero-subtitle {
-    color: var(--text-secondary);
+    color: #E8E6E3 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
   }
   
-  .hero-logo-bg {
-    opacity: 0.06;
-    filter: grayscale(100%) brightness(1.5);
-  }
-  
-  .hero-logo-bg::after {
-    color: var(--color-accent);
-    opacity: 0.05;
-  }
-  
-  /* Floating elements - more visible in dark mode */
+  /* Floating elements more visible in dark */
   .floating-element {
-    opacity: var(--floating-element-opacity);
+    opacity: 0.6;
     filter: drop-shadow(0 2px 8px rgba(212, 185, 150, 0.3));
-  }
-  
-  .balloon {
-    color: var(--floating-element-color-1);
-  }
-  
-  .flower {
-    color: var(--floating-element-color-2);
-    opacity: 0.4;
-  }
-  
-  .star {
-    color: var(--floating-element-color-3);
-  }
-  
-  .cake {
-    color: var(--floating-element-color-1);
-    opacity: 0.35;
   }
   
   /* ===================================
@@ -206,29 +149,18 @@
   .cta-button,
   .header-contact-btn,
   .contact-btn {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
-    border-color: var(--color-button-bg);
+    background: #B89968;
+    color: #1a1a1a;
+    border-color: #B89968;
   }
   
   .btn:hover,
   .cta-button:hover,
   .header-contact-btn:hover,
   .contact-btn:hover {
-    background: var(--color-hover);
-    color: var(--color-button-text);
-    border-color: var(--color-hover);
-  }
-  
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-button-bg);
-    border-color: var(--color-button-bg);
-  }
-  
-  .btn-secondary:hover {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
+    background: #D4B896;
+    color: #1a1a1a;
+    border-color: #D4B896;
   }
   
   /* ===================================
@@ -238,83 +170,79 @@
   .service-card,
   .portfolio-card,
   .contact-item {
-    background: var(--color-surface);
-    border-color: var(--color-border);
+    background: #252525;
+    border-color: #3a3a3a;
   }
   
   .services {
-    background: var(--color-bg);
+    background: #1a1a1a;
   }
   
   .services-slider {
-    background: var(--color-surface);
-    border-color: var(--color-border);
+    background: #252525;
+    border-color: #3a3a3a;
   }
   
   .service-slide {
-    background: var(--color-surface);
+    background: #252525;
   }
   
   .service-content h3 {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .service-content p {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .service-features li {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .service-features li::before {
-    color: var(--color-gold-accent);
-  }
-  
-  .service-slide:hover .service-features li {
-    color: var(--text-primary);
+    color: #D4B896;
   }
   
   .service-image-container {
-    border-color: var(--color-border);
+    border-color: #3a3a3a;
   }
   
   /* ===================================
      PORTFOLIO - Dark Mode
      =================================== */
   .portfolio {
-    background: var(--color-surface);
+    background: #252525;
   }
   
   .portfolio-card {
-    background: var(--color-surface);
+    background: #252525;
   }
   
   .portfolio-image-container {
-    background: var(--color-bg);
+    background: #1a1a1a;
   }
   
   .portfolio-info {
-    background: var(--color-surface);
+    background: #252525;
   }
   
   .portfolio-name {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .portfolio-description {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .portfolio-nav-btn {
     background: rgba(37, 37, 37, 0.95);
-    border-color: var(--color-border);
-    color: var(--color-button-bg);
+    border-color: #3a3a3a;
+    color: #B89968;
   }
   
   .portfolio-nav-btn:hover {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
+    background: #B89968;
+    color: #1a1a1a;
   }
   
   .portfolio-dots {
@@ -322,65 +250,67 @@
   }
   
   .portfolio-dot {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(199, 184, 161, 0.3);
+    border-color: rgba(199, 184, 161, 0.5);
   }
   
   .portfolio-dot.active {
-    background: var(--color-gold-accent);
+    background: #D4B996;
+    border-color: #D4B996;
   }
   
   .image-count {
     background: rgba(0, 0, 0, 0.8);
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   /* ===================================
      ABOUT SECTION - Dark Mode
      =================================== */
   .about {
-    background: var(--color-bg);
+    background: #1a1a1a;
   }
   
   .about-text h3 {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .about-text p {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .specialties {
-    background: var(--color-surface);
-    border-color: var(--color-border);
+    background: #252525;
+    border-color: #3a3a3a;
   }
   
   .specialties h4 {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .specialties-list li {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .specialties-list li::before {
-    color: var(--color-gold-accent);
+    color: #D4B896;
   }
   
   .about-slider,
   .about-image-single {
-    border-color: var(--color-border);
-    background: var(--color-bg);
+    border-color: #3a3a3a;
+    background: #1a1a1a;
   }
   
   .about-nav-btn {
     background: rgba(37, 37, 37, 0.95);
-    border-color: var(--color-border);
-    color: var(--color-button-bg);
+    border-color: #3a3a3a;
+    color: #B89968;
   }
   
   .about-nav-btn:hover {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
+    background: #B89968;
+    color: #1a1a1a;
   }
   
   .about-dots {
@@ -388,76 +318,88 @@
   }
   
   .about-dot {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(199, 184, 161, 0.3);
+    border-color: rgba(199, 184, 161, 0.5);
   }
   
   .about-dot.active {
-    background: var(--color-gold-accent);
+    background: #D4B996;
+    border-color: #D4B896;
   }
   
   .image-overlay {
     background: rgba(184, 153, 104, 0.95);
-    color: var(--color-button-text);
+    color: #1a1a1a;
+  }
+  
+  .about-image-loading {
+    background: #252525;
+    border-color: #3a3a3a;
+    color: #B8B5B2;
+  }
+  
+  .about-image-loading i {
+    color: #B89968;
   }
   
   /* ===================================
      CONTACT SECTION - Dark Mode
      =================================== */
   .contact {
-    background: var(--color-surface);
-    border-color: var(--color-border);
+    background: #252525;
+    border-color: #3a3a3a;
   }
   
   .contact-item {
-    background: var(--color-bg);
+    background: #1a1a1a;
   }
   
   .contact-item i {
-    color: var(--color-gold-accent);
+    color: #D4B896;
   }
   
   .contact-item h3 {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .contact-item p {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   /* ===================================
      SOCIAL SECTION - Dark Mode
      =================================== */
   .social-section {
-    background: var(--color-bg);
-    border-color: var(--color-border);
+    background: #1a1a1a;
+    border-color: #3a3a3a;
   }
   
   .social-title {
-    color: var(--text-primary);
+    color: #E8E6E3;
   }
   
   .social-subtitle {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .social-link-card {
-    background: var(--color-surface);
-    border-color: var(--color-border);
-    color: var(--text-primary);
+    background: #252525;
+    border-color: #3a3a3a;
+    color: #E8E6E3;
   }
   
   .social-link-card:hover {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
-    border-color: var(--color-button-bg);
+    background: #B89968;
+    color: #1a1a1a;
+    border-color: #B89968;
   }
   
   .social-link-card i {
-    color: var(--color-gold-accent);
+    color: #D4B896;
   }
   
   .social-link-card:hover i {
-    color: var(--color-button-text);
+    color: #1a1a1a;
   }
   
   /* ===================================
@@ -465,41 +407,41 @@
      =================================== */
   .footer {
     background: #0d0d0d;
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .footer-section h3 {
-    color: var(--color-gold-accent);
+    color: #D4B896;
   }
   
   .footer-section p {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .footer-section ul li {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .footer-section ul a {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   .footer-section ul a:hover {
-    color: var(--color-gold-accent);
+    color: #D4B896;
   }
   
   .footer-social a {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
+    background: #B89968;
+    color: #1a1a1a;
   }
   
   .footer-social a:hover {
-    background: var(--color-hover);
+    background: #D4B896;
   }
   
   .footer-bottom {
-    border-top: 1px solid var(--color-border);
-    color: var(--text-secondary);
+    border-top: 1px solid #3a3a3a;
+    color: #B8B5B2;
   }
   
   /* ===================================
@@ -510,17 +452,25 @@
   }
   
   .modal-close {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
+    background: #B89968;
+    color: #1a1a1a;
   }
   
   .modal-close:hover {
-    background: var(--color-hover);
+    background: #D4B896;
   }
   
   .modal-caption {
     background: rgba(0, 0, 0, 0.85);
-    color: var(--text-primary);
+    color: #E8E6E3;
+  }
+  
+  .modal-caption h3 {
+    color: #E8E6E3;
+  }
+  
+  .modal-caption p {
+    color: #B8B5B2;
   }
   
   /* ===================================
@@ -529,150 +479,70 @@
   input,
   textarea,
   select {
-    background: var(--color-surface);
-    color: var(--text-primary);
-    border-color: var(--color-border);
+    background: #252525;
+    color: #E8E6E3;
+    border-color: #3a3a3a;
   }
   
   input:focus,
   textarea:focus,
   select:focus {
-    border-color: var(--color-button-bg);
-    background: var(--color-bg);
+    border-color: #B89968;
+    background: #1a1a1a;
   }
   
   input::placeholder,
   textarea::placeholder {
-    color: var(--text-secondary);
+    color: #B8B5B2;
   }
   
   /* ===================================
      SLIDER CONTROLS - Dark Mode
      =================================== */
   .slider-btn {
-    background: var(--color-button-bg);
-    color: var(--color-button-text);
-    border-color: var(--color-button-bg);
+    background: #B89968;
+    color: #1a1a1a;
+    border-color: #B89968;
   }
   
   .slider-btn:hover {
-    background: var(--color-hover);
-    border-color: var(--color-hover);
+    background: #D4B896;
+    border-color: #D4B896;
   }
   
   .dot {
-    background: var(--color-accent);
+    background: #8B7355;
   }
   
   .dot.active {
-    background: var(--color-button-bg);
-    border-color: var(--color-border);
+    background: #B89968;
+    border-color: #3a3a3a;
   }
   
   .dot:hover {
-    background: var(--color-gold-accent);
+    background: #D4B896;
   }
   
   /* ===================================
      LOADING - Dark Mode
      =================================== */
   .loading {
-    background: var(--color-bg);
+    background: #1a1a1a;
   }
   
   .loading-spinner {
-    border-color: var(--color-border);
-    border-top-color: var(--color-button-bg);
+    border-color: #3a3a3a;
+    border-top-color: #B89968;
   }
   
-  .about-image-loading {
-    background: var(--color-surface);
-    border-color: var(--color-border);
-    color: var(--text-secondary);
-  }
-  
-  .about-image-loading i {
-    color: var(--color-button-bg);
+  .loading-message {
+    color: #B8B5B2;
   }
 }
 
-/* ===================================
-   ENHANCED CONTRAST - Both Modes
-   =================================== */
-
-/* Ensure section titles are always readable */
-.section-title {
-  color: var(--text-primary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.section-subtitle {
-  color: var(--text-secondary);
-}
-
-/* Enhanced focus states for accessibility */
-a:focus,
-button:focus,
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid var(--color-button-bg);
-  outline-offset: 2px;
-}
-
-/* Ensure all headings have proper contrast */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-primary);
-}
-
-/* Paragraphs and body text */
-p, li, span {
-  color: var(--text-secondary);
-}
-
-/* Links with better contrast */
-a {
-  color: var(--color-taupe);
-}
-
-a:hover,
-a:focus {
-  color: var(--color-hover);
-}
-
-/* ===================================
-   FORCED COLORS MODE (High Contrast)
-   =================================== */
-@media (forced-colors: active) {
-  .hero::before,
-  .hero-logo-bg,
-  .floating-elements {
-    display: none;
-  }
-  
-  .portfolio-nav-btn,
-  .about-nav-btn,
-  .slider-btn {
-    forced-color-adjust: none;
-    border: 2px solid ButtonText;
-  }
-}
-
-/* ===================================
-   PRINT STYLES - Enhanced
-   =================================== */
-@media print {
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  
-  .section-title,
-  h1, h2, h3, h4, h5, h6 {
-    color: black !important;
-  }
-  
-  p, li {
-    color: #333 !important;
-  }
+/* Force dark mode styles when data-theme="dark" is set */
+[data-theme="dark"] {
+  /* Apply all the same styles as above */
+  background-color: #1a1a1a;
+  color: #E8E6E3;
 }
