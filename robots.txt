@@ -1,0 +1,22 @@
+# robots.txt for AA Event Decor and Rentals
+# www.aaeventdecor.com
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow admin and private directories (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /cgi-bin/
+
+# Allow CSS and JS files to be crawled (important for SEO)
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Sitemap location
+Sitemap: https://www.aaeventdecor.com/sitemap.xml
+
+# Crawl delay (optional - adjust if needed)
+Crawl-delay: 10
